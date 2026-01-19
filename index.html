@@ -4,13 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>True Vanilla - Boutique</title>
-    
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
     <style>
@@ -48,8 +44,7 @@
             min-height: 100vh;
             overflow-x: hidden;
         }
-
-        /* Animated Background */
+        
         .bg-pattern {
             position: fixed;
             top: 0;
@@ -102,7 +97,6 @@
             }
         }
 
-        /* Header */
         header {
             position: fixed;
             top: 0;
@@ -296,7 +290,6 @@
             transform: translateY(0);
         }
 
-        /* Main Content */
         main {
             position: relative;
             z-index: 1;
@@ -304,7 +297,6 @@
             padding-bottom: 120px;
         }
 
-        /* Page Title */
         .page-title {
             text-align: center;
             margin-bottom: 3rem;
@@ -329,14 +321,12 @@
             font-size: 1.1rem;
         }
 
-        /* Shop Container */
         .shop-container {
             max-width: 1400px;
             margin: 0 auto;
             padding: 0 2rem;
         }
 
-        /* Category Section */
         .category-section {
             margin-bottom: 4rem;
         }
@@ -382,14 +372,12 @@
             letter-spacing: 0.05em;
         }
 
-        /* Product Grid */
         .products-grid {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             gap: 1.5rem;
         }
 
-        /* Product Card */
         .product-card {
             background: var(--bg-card);
             border-radius: 16px;
@@ -541,7 +529,6 @@
             z-index: 1000;
         }
 
-        /* VIP Advantages Section */
         .advantages-section {
             background: var(--bg-card);
             border-radius: 20px;
@@ -619,7 +606,6 @@
             color: var(--text-secondary);
         }
 
-        /* Conditions Section */
         .conditions-section {
             background: var(--bg-card);
             border-radius: 20px;
@@ -673,7 +659,6 @@
             line-height: 1.6;
         }
 
-        /* Disclaimer Modal */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -799,7 +784,6 @@
             box-shadow: 0 8px 25px rgba(6, 182, 212, 0.4);
         }
 
-        /* Image Lightbox */
         .lightbox-overlay {
             position: fixed;
             top: 0;
@@ -875,7 +859,6 @@
             opacity: 0.9;
         }
 
-        /* Join Modal Styles */
         .join-modal {
             max-width: 750px;
         }
@@ -1050,7 +1033,6 @@
             color: var(--accent-aqua);
         }
 
-        /* DOCK STYLES */
         .dock-container {
             position: fixed;
             bottom: 20px;
@@ -1144,7 +1126,6 @@
             transform: translateX(-50%) translateY(0);
         }
 
-        /* Dock magnification effect */
         .dock-item.magnify-1 {
             transform: scale(1.15) translateY(-5px);
         }
@@ -1169,7 +1150,6 @@
             margin: 0 8px;
         }
 
-        /* Scroll Indicator */
         .scroll-indicator {
             position: fixed;
             left: 40px;
@@ -1252,7 +1232,6 @@
             border-radius: 2px;
         }
 
-        /* First circle (top) larger style */
         .scroll-item:first-child .scroll-circle {
             width: 28px;
             height: 28px;
@@ -1263,7 +1242,6 @@
             height: 10px;
         }
 
-        /* Responsive */
         @media (max-width: 1200px) {
             .products-grid {
                 grid-template-columns: repeat(3, 1fr);
@@ -1334,7 +1312,6 @@
     <div class="bg-pattern"></div>
     <div class="particles" id="particles"></div>
 
-    <!-- Dock -->
     <div class="dock-container" id="dock">
         <div class="dock-item" data-index="0" onclick="window.open('https://www.true-vanilla.fr/historique', '_blank')">
             <div class="dock-icon">
@@ -1356,7 +1333,6 @@
         </div>
     </div>
 
-    <!-- Scroll Indicator -->
     <div class="scroll-indicator" id="scrollIndicator">
         <div class="scroll-item" data-section="section-vip" onclick="scrollToSection('section-vip')">
             <div class="scroll-circle active">
@@ -1380,7 +1356,6 @@
         </div>
     </div>
 
-    <!-- Disclaimer Modal -->
     <div class="modal-overlay" id="disclaimerModal">
         <div class="modal-container">
             <div class="modal-header">
@@ -1404,7 +1379,6 @@
         </div>
     </div>
 
-    <!-- Image Lightbox -->
     <div class="lightbox-overlay" id="imageLightbox" onclick="closeLightbox(event)">
         <div class="lightbox-content">
             <img src="" alt="Bundle Preview" id="lightboxImage">
@@ -1414,7 +1388,6 @@
         </div>
     </div>
 
-    <!-- Join Modal -->
     <div class="modal-overlay" id="joinModal">
         <div class="modal-container join-modal">
             <div class="modal-header join-header">
@@ -1472,7 +1445,6 @@
         </div>
     </div>
 
-    <!-- Header -->
     <header>
         <div class="header-left">
             <div class="season-badge">Chapitre 2 - Saison 1</div>
@@ -1497,16 +1469,13 @@
         </div>
     </header>
 
-    <!-- Main Content -->
     <main>
         <div class="shop-container">
-            <!-- Page Title -->
             <div class="page-title">
                 <h1><span>🛒</span> Boutique</h1>
                 <p>Soutenez le serveur et débloquez des avantages exclusifs</p>
             </div>
 
-            <!-- VIP Grade Category -->
             <section class="category-section" id="section-vip">
                 <div class="category-header">
                     <div class="category-icon vip">💎</div>
@@ -1553,7 +1522,6 @@
                 </div>
             </section>
 
-            <!-- VIP Advantages Section -->
             <section class="advantages-section">
                 <div class="advantages-header">
                     <span style="font-size: 2rem;">💎</span>
@@ -1595,7 +1563,6 @@
                 </div>
             </section>
 
-            <!-- Cosmétiques Category -->
             <section class="category-section" id="section-cosmetiques">
                 <div class="category-header">
                     <div class="category-icon cosmetic">🎨</div>
@@ -1669,7 +1636,6 @@
                 </div>
             </section>
 
-            <!-- Conditions d'Achat Section -->
             <section class="conditions-section" id="section-conditions">
                 <div class="conditions-header">
                     <span style="font-size: 1.5rem;">📋</span>
@@ -1741,7 +1707,6 @@
             }
         });
 
-        // Image Lightbox functions
         function openLightbox(imageSrc) {
             document.getElementById('lightboxImage').src = imageSrc;
             document.getElementById('imageLightbox').classList.add('active');
@@ -1750,7 +1715,6 @@
 
         function closeLightbox(event) {
             if (event) {
-                // Only close if clicking on overlay or close button, not on the image
                 if (event.target.id === 'imageLightbox' || event.target.closest('.lightbox-close')) {
                     document.getElementById('imageLightbox').classList.remove('active');
                     document.body.style.overflow = '';
@@ -1761,7 +1725,6 @@
             }
         }
 
-        // Join Modal functions
         function openJoinModal() {
             document.getElementById('joinModal').classList.add('active');
             document.body.style.overflow = 'hidden';
@@ -1810,7 +1773,6 @@
             }
         }
 
-        // Dock magnification effect
         function initDock() {
             const dock = document.getElementById('dock');
             const dockItems = dock.querySelectorAll('.dock-item');
@@ -1823,10 +1785,8 @@
                     const itemCenterX = itemRect.left + itemRect.width / 2;
                     const distance = Math.abs(e.clientX - itemCenterX);
                     
-                    // Remove all magnify classes
                     item.classList.remove('magnify-1', 'magnify-2');
-                    
-                    // Apply magnification based on distance
+
                     if (distance < 30) {
                         item.classList.add('magnify-2');
                     } else if (distance < 70) {
@@ -1842,7 +1802,6 @@
             });
         }
 
-        // Scroll Indicator
         function scrollToSection(sectionId) {
             const section = document.getElementById(sectionId);
             if (section) {
@@ -1891,18 +1850,15 @@
             });
         }
 
-        // Initialize scroll indicator
         function initScrollIndicator() {
             window.addEventListener('scroll', updateScrollIndicator);
-            updateScrollIndicator(); // Initial call
-        }
+            updateScrollIndicator();
 
         document.addEventListener('DOMContentLoaded', () => {
             createParticles();
             initDock();
             initScrollIndicator();
-            
-            // Show disclaimer modal on page load (only if not seen before in this session)
+
             if (!sessionStorage.getItem('disclaimerSeen')) {
                 setTimeout(() => {
                     openDisclaimerModal();
