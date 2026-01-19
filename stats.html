@@ -1,0 +1,672 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>True Vanilla - Statistiques</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <style>
+        :root {
+            --bg-dark: #0a0d12;
+            --bg-card: #111827;
+            --accent-aqua: #06b6d4;
+            --accent-aqua-light: #22d3ee;
+            --accent-aqua-glow: rgba(6, 182, 212, 0.3);
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-gold: #fbbf24;
+            --accent-silver: #94a3b8;
+            --accent-bronze: #cd7f32;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(17, 24, 39, 0.9);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .bg-pattern {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
+            background: 
+                radial-gradient(ellipse at 15% 30%, rgba(6, 182, 212, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 85% 70%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 100%, rgba(6, 182, 212, 0.05) 0%, transparent 60%);
+        }
+
+        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; overflow: hidden; }
+        .particle {
+            position: absolute; width: 4px; height: 4px; background: var(--accent-aqua);
+            border-radius: 50%; opacity: 0; animation: float-particle 10s infinite ease-in-out;
+        }
+        @keyframes float-particle {
+            0%, 100% { transform: translateY(100vh) scale(0); opacity: 0; }
+            10% { opacity: 0.5; } 90% { opacity: 0.5; }
+            100% { transform: translateY(-10vh) scale(1); opacity: 0; }
+        }
+
+        header {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 2rem; height: 80px;
+            display: flex; align-items: center; justify-content: space-between;
+            background: var(--glass-bg); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-subtle);
+        }
+        .header-left { display: flex; align-items: center; gap: 0.5rem; }
+        .season-badge {
+            font-family: 'Cinzel', serif; font-size: 0.85rem; font-weight: 600; color: var(--accent-aqua);
+            letter-spacing: 0.15em; text-transform: uppercase; padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(6, 182, 212, 0.05));
+            border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 4px; position: relative; overflow: hidden;
+        }
+        .season-badge::before {
+            content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.2), transparent);
+            animation: shimmer 3s infinite;
+        }
+        @keyframes shimmer { 0% { left: -100%; } 100% { left: 100%; } }
+
+        .header-center { display: flex; align-items: center; gap: 2rem; position: absolute; left: 50%; transform: translateX(-50%); }
+        .nav-left, .nav-right { display: flex; gap: 0.5rem; }
+        .nav-btn {
+            font-family: 'Outfit', sans-serif; font-size: 0.9rem; font-weight: 500; color: var(--text-secondary);
+            background: transparent; border: none; padding: 0.6rem 1.2rem; cursor: pointer;
+            transition: all 0.3s ease; position: relative; border-radius: 6px; text-decoration: none;
+        }
+        .nav-btn::after {
+            content: ''; position: absolute; bottom: 4px; left: 50%; width: 0; height: 2px;
+            background: var(--accent-aqua); transition: all 0.3s ease; transform: translateX(-50%); border-radius: 2px;
+        }
+        .nav-btn:hover { color: var(--text-primary); }
+        .nav-btn:hover::after { width: 60%; }
+        .nav-btn.active { color: var(--accent-aqua); }
+        .nav-btn.active::after { width: 60%; }
+
+        .logo-container { display: flex; align-items: center; justify-content: center; }
+        .logo {
+            width: 60px; height: 60px; object-fit: contain;
+            filter: drop-shadow(0 0 10px var(--accent-aqua-glow));
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+        .logo:hover { transform: scale(1.1) rotate(5deg); filter: drop-shadow(0 0 20px var(--accent-aqua-glow)); }
+
+        .header-right { display: flex; align-items: center; gap: 1rem; }
+        .server-status {
+            display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1rem;
+            background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.2); border-radius: 8px;
+        }
+        .status-dot { width: 8px; height: 8px; background: #22c55e; border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.5; } }
+        .status-text { font-size: 0.85rem; color: var(--text-secondary); }
+        .status-text span { color: var(--text-primary); font-weight: 600; }
+
+        main { padding-top: 100px; min-height: 100vh; position: relative; z-index: 1; }
+        .stats-container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+
+        .page-title { text-align: center; margin-bottom: 2rem; }
+        .page-title h1 {
+            font-family: 'Cinzel', serif; font-size: 2.5rem; font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-aqua), var(--accent-blue));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+        .page-title p { color: var(--text-secondary); font-size: 1.1rem; }
+
+        .category-tabs { display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem; }
+        .category-tab {
+            font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 600;
+            padding: 1rem 2rem; border: none; border-radius: 12px; cursor: pointer;
+            background: var(--bg-card); color: var(--text-secondary);
+            border: 1px solid var(--border-subtle); transition: all 0.3s ease;
+        }
+        .category-tab:hover { background: rgba(6, 182, 212, 0.1); color: var(--text-primary); }
+        .category-tab.active {
+            background: linear-gradient(135deg, var(--accent-aqua), var(--accent-blue));
+            color: var(--bg-dark); border-color: transparent;
+        }
+
+        .tab-content { display: none; }
+        .tab-content.active { display: block; animation: fadeIn 0.3s ease; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .individual-layout { display: grid; grid-template-columns: 350px 1fr; gap: 2rem; }
+
+        .player-search-section {
+            background: var(--bg-card); border-radius: 16px; padding: 1.5rem;
+            border: 1px solid var(--border-subtle); height: fit-content;
+        }
+        .search-box { position: relative; margin-bottom: 1.5rem; }
+        .search-box input {
+            width: 100%; padding: 1rem 1rem 1rem 3rem; border: none; border-radius: 12px;
+            background: rgba(0, 0, 0, 0.3); color: var(--text-primary);
+            font-family: 'Outfit', sans-serif; font-size: 1rem;
+            border: 1px solid var(--border-subtle); transition: all 0.3s ease;
+        }
+        .search-box input:focus {
+            outline: none; border-color: var(--accent-aqua);
+            box-shadow: 0 0 20px var(--accent-aqua-glow);
+        }
+        .search-box input::placeholder { color: var(--text-muted); }
+        .search-box i {
+            position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+            color: var(--text-muted); font-size: 1rem;
+        }
+        .search-suggestions {
+            position: absolute; top: 100%; left: 0; right: 0; background: var(--bg-card);
+            border: 1px solid var(--border-subtle); border-radius: 12px; margin-top: 0.5rem;
+            max-height: 200px; overflow-y: auto; display: none; z-index: 100;
+        }
+        .search-suggestions.show { display: block; }
+        .suggestion-item {
+            padding: 0.75rem 1rem; cursor: pointer; display: flex; align-items: center; gap: 0.75rem;
+            transition: background 0.2s ease;
+        }
+        .suggestion-item:hover { background: rgba(6, 182, 212, 0.1); }
+        .suggestion-item img { width: 32px; height: 32px; border-radius: 4px; }
+        .suggestion-item span { color: var(--text-primary); }
+
+        .player-display { text-align: center; padding: 1rem 0; }
+        .player-display.empty { color: var(--text-muted); padding: 3rem 1rem; }
+        .player-model {
+            width: 200px; height: 300px; margin: 0 auto 1rem;
+            background: rgba(0, 0, 0, 0.2); border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; overflow: hidden;
+        }
+        .player-model img { max-width: 100%; max-height: 100%; object-fit: contain; image-rendering: pixelated; }
+        .player-name {
+            font-family: 'Cinzel', serif; font-size: 1.5rem; font-weight: 700;
+            color: var(--text-primary); margin-bottom: 0.5rem;
+        }
+        .player-rank {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.5rem 1rem; border-radius: 20px; font-weight: 600;
+        }
+        .player-rank.top-1 { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #000; }
+        .player-rank.top-2 { background: linear-gradient(135deg, #94a3b8, #64748b); color: #000; }
+        .player-rank.top-3 { background: linear-gradient(135deg, #cd7f32, #a0522d); color: #fff; }
+        .player-rank.default { background: rgba(6, 182, 212, 0.2); color: var(--accent-aqua); }
+
+        .stats-section {
+            background: var(--bg-card); border-radius: 16px; padding: 1.5rem;
+            border: 1px solid var(--border-subtle);
+        }
+        .stats-section-title {
+            font-family: 'Cinzel', serif; font-size: 1.25rem; font-weight: 600;
+            color: var(--text-primary); margin-bottom: 1.5rem;
+            display: flex; align-items: center; gap: 0.75rem;
+        }
+        .stats-section-title i { color: var(--accent-aqua); }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 1rem; }
+        .stat-card {
+            background: rgba(0, 0, 0, 0.2); border-radius: 12px; padding: 1.25rem;
+            border: 1px solid var(--border-subtle); transition: all 0.3s ease;
+        }
+        .stat-card:hover {
+            border-color: var(--accent-aqua); transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(6, 182, 212, 0.1);
+        }
+        .stat-card-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 0.75rem; }
+        .stat-card-icon {
+            width: 36px; height: 36px; border-radius: 8px; display: flex;
+            align-items: center; justify-content: center; font-size: 1rem;
+        }
+        .stat-card-icon.aqua { background: rgba(6, 182, 212, 0.2); color: var(--accent-aqua); }
+        .stat-card-icon.blue { background: rgba(59, 130, 246, 0.2); color: var(--accent-blue); }
+        .stat-card-icon.purple { background: rgba(139, 92, 246, 0.2); color: var(--accent-purple); }
+        .stat-card-icon.gold { background: rgba(251, 191, 36, 0.2); color: var(--accent-gold); }
+        .stat-card-icon.red { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+        .stat-card-icon.green { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+        .stat-card-label { font-size: 0.85rem; color: var(--text-muted); }
+        .stat-card-value { font-size: 1.5rem; font-weight: 700; color: var(--text-primary); }
+        .stat-card-subvalue { font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.25rem; }
+
+        .leaderboard-section {
+            background: var(--bg-card); border-radius: 16px; padding: 1.5rem;
+            border: 1px solid var(--border-subtle);
+        }
+        .leaderboard-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+        .leaderboard-title {
+            font-family: 'Cinzel', serif; font-size: 1.25rem; font-weight: 600;
+            color: var(--text-primary); display: flex; align-items: center; gap: 0.75rem;
+        }
+        .leaderboard-title i { color: var(--accent-gold); }
+        .sort-select {
+            padding: 0.5rem 1rem; border-radius: 8px; background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-subtle); color: var(--text-primary);
+            font-family: 'Outfit', sans-serif; cursor: pointer;
+        }
+        .leaderboard-list { display: flex; flex-direction: column; gap: 0.75rem; }
+        .leaderboard-item {
+            display: flex; align-items: center; gap: 1rem; padding: 1rem;
+            background: rgba(0, 0, 0, 0.2); border-radius: 12px;
+            border: 1px solid var(--border-subtle); cursor: pointer; transition: all 0.3s ease;
+        }
+        .leaderboard-item:hover {
+            border-color: var(--accent-aqua); transform: translateX(5px);
+            background: rgba(6, 182, 212, 0.05);
+        }
+        .leaderboard-item.top-1 { border-color: var(--accent-gold); background: rgba(251, 191, 36, 0.05); }
+        .leaderboard-item.top-2 { border-color: var(--accent-silver); background: rgba(148, 163, 184, 0.05); }
+        .leaderboard-item.top-3 { border-color: var(--accent-bronze); background: rgba(205, 127, 50, 0.05); }
+        .leaderboard-rank {
+            width: 40px; height: 40px; border-radius: 10px; display: flex;
+            align-items: center; justify-content: center; font-weight: 700; font-size: 1.1rem;
+            background: rgba(255, 255, 255, 0.05); color: var(--text-secondary);
+        }
+        .top-1 .leaderboard-rank { background: linear-gradient(135deg, #fbbf24, #f59e0b); color: #000; }
+        .top-2 .leaderboard-rank { background: linear-gradient(135deg, #94a3b8, #64748b); color: #000; }
+        .top-3 .leaderboard-rank { background: linear-gradient(135deg, #cd7f32, #a0522d); color: #fff; }
+        .leaderboard-avatar img { width: 48px; height: 48px; border-radius: 8px; }
+        .leaderboard-info { flex: 1; }
+        .leaderboard-name { font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem; }
+        .leaderboard-mini-stats { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .leaderboard-mini-stat {
+            font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.3rem;
+        }
+        .leaderboard-mini-stat i { font-size: 0.7rem; color: var(--accent-aqua); }
+        .leaderboard-score {
+            font-size: 1.25rem; font-weight: 700; color: var(--accent-aqua); text-align: right;
+        }
+        .leaderboard-score span { font-size: 0.8rem; color: var(--text-muted); font-weight: 400; }
+
+        .loading-state, .error-state, .empty-state { text-align: center; padding: 4rem 2rem; color: var(--text-muted); }
+        .loading-state i, .error-state i, .empty-state i { font-size: 3rem; margin-bottom: 1rem; display: block; }
+        .loading-state i { color: var(--accent-aqua); animation: spin 1s linear infinite; }
+        .error-state i { color: #ef4444; }
+        .empty-state i { color: var(--text-muted); }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .retry-btn {
+            margin-top: 1rem; padding: 0.75rem 1.5rem; border: none; border-radius: 8px;
+            background: var(--accent-aqua); color: var(--bg-dark); font-weight: 600;
+            cursor: pointer; transition: all 0.3s ease;
+        }
+        .retry-btn:hover { background: var(--accent-aqua-light); transform: scale(1.05); }
+
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(10px);
+            z-index: 2000; display: flex; align-items: center; justify-content: center;
+            opacity: 0; visibility: hidden; transition: all 0.3s ease;
+        }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-container {
+            background: var(--bg-card); border-radius: 20px; padding: 2.5rem;
+            border: 1px solid var(--border-subtle); max-width: 500px; width: 90%;
+            transform: scale(0.9); transition: all 0.3s ease;
+        }
+        .modal-overlay.active .modal-container { transform: scale(1); }
+        .modal-title {
+            font-family: 'Cinzel', serif; font-size: 1.75rem; font-weight: 700;
+            text-align: center; margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--accent-aqua), var(--accent-blue));
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+        }
+        .modal-subtitle { text-align: center; color: var(--text-secondary); margin-bottom: 2rem; }
+        .server-options { display: flex; flex-direction: column; gap: 1rem; }
+        .server-option {
+            padding: 1.25rem; border-radius: 12px; background: rgba(0, 0, 0, 0.2);
+            border: 2px solid var(--border-subtle); cursor: pointer; transition: all 0.3s ease;
+            display: flex; align-items: center; gap: 1rem;
+        }
+        .server-option:hover { border-color: var(--accent-aqua); background: rgba(6, 182, 212, 0.05); }
+        .server-option-icon {
+            width: 50px; height: 50px; border-radius: 10px;
+            display: flex; align-items: center; justify-content: center; font-size: 1.5rem;
+        }
+        .server-option-icon.minijeux { background: rgba(251, 191, 36, 0.2); color: var(--accent-gold); }
+        .server-option-icon.smp { background: rgba(34, 197, 94, 0.2); color: #22c55e; }
+        .server-option-icon.whitelist { background: rgba(139, 92, 246, 0.2); color: var(--accent-purple); }
+        .server-option-info h3 { font-weight: 600; color: var(--text-primary); margin-bottom: 0.25rem; }
+        .server-option-info p { font-size: 0.85rem; color: var(--text-muted); }
+
+        .dock {
+            position: fixed; bottom: 2rem; left: 50%; transform: translateX(-50%);
+            background: var(--glass-bg); backdrop-filter: blur(20px);
+            border-radius: 20px; padding: 0.75rem 1.5rem;
+            border: 1px solid var(--border-subtle); z-index: 1000; display: flex; gap: 0.5rem;
+        }
+        .dock-item {
+            width: 50px; height: 50px; border-radius: 12px; display: flex;
+            align-items: center; justify-content: center; color: var(--text-secondary);
+            transition: all 0.3s ease; cursor: pointer; position: relative; text-decoration: none;
+        }
+        .dock-item:hover { background: rgba(6, 182, 212, 0.1); color: var(--accent-aqua); transform: translateY(-5px); }
+        .dock-item.active { background: rgba(6, 182, 212, 0.2); color: var(--accent-aqua); }
+        .dock-item i { font-size: 1.25rem; }
+        .dock-tooltip {
+            position: absolute; bottom: 100%; left: 50%; transform: translateX(-50%);
+            background: var(--bg-card); color: var(--text-primary); padding: 0.5rem 0.75rem;
+            border-radius: 8px; font-size: 0.8rem; white-space: nowrap;
+            opacity: 0; visibility: hidden; transition: all 0.2s ease; margin-bottom: 0.5rem;
+            border: 1px solid var(--border-subtle);
+        }
+        .dock-item:hover .dock-tooltip { opacity: 1; visibility: visible; }
+
+        @media (max-width: 1024px) {
+            .individual-layout { grid-template-columns: 1fr; }
+            .header-center { display: none; }
+        }
+        @media (max-width: 768px) {
+            header { padding: 0 1rem; }
+            .stats-container { padding: 1rem; }
+            .page-title h1 { font-size: 1.75rem; }
+            .category-tabs { flex-direction: column; }
+            .category-tab { width: 100%; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .leaderboard-mini-stats { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-pattern"></div>
+    <div class="particles" id="particles"></div>
+
+    <header>
+        <div class="header-left">
+            <div class="season-badge">Chapitre 2</div>
+        </div>
+        <div class="header-center">
+            <nav class="nav-left">
+                <a href="index.html" class="nav-btn">Accueil</a>
+                <a href="rules.html" class="nav-btn">Règles</a>
+            </nav>
+            <div class="logo-container">
+                <img src="logo.png" alt="True Vanilla" class="logo">
+            </div>
+            <nav class="nav-right">
+                <a href="map.html" class="nav-btn">Carte</a>
+                <a href="stats.html" class="nav-btn active">Stats</a>
+            </nav>
+        </div>
+        <div class="header-right">
+            <div class="server-status">
+                <div class="status-dot"></div>
+                <div class="status-text">Serveur: <span id="currentServer">-</span></div>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="stats-container">
+            <div class="page-title">
+                <h1>Statistiques</h1>
+                <p>Consultez les performances des joueurs</p>
+            </div>
+
+            <div class="category-tabs">
+                <button class="category-tab active" onclick="switchCategory('individual')">
+                    <i class="fas fa-user"></i> Stats Individuelles
+                </button>
+                <button class="category-tab" onclick="switchCategory('leaderboard')">
+                    <i class="fas fa-trophy"></i> Classement Général
+                </button>
+            </div>
+
+            <div id="tab-individual" class="tab-content active">
+                <div class="individual-layout">
+                    <div class="player-search-section">
+                        <div class="search-box">
+                            <i class="fas fa-search"></i>
+                            <input type="text" id="playerSearch" placeholder="Rechercher un joueur..." autocomplete="off">
+                            <div class="search-suggestions" id="searchSuggestions"></div>
+                        </div>
+                        <div class="player-display empty" id="playerDisplay">
+                            <i class="fas fa-user-circle" style="font-size: 4rem; margin-bottom: 1rem;"></i>
+                            <p>Recherchez un joueur pour voir ses statistiques</p>
+                        </div>
+                    </div>
+
+                    <div class="stats-section">
+                        <div class="stats-section-title">
+                            <i class="fas fa-chart-bar"></i>
+                            <span>Statistiques détaillées</span>
+                        </div>
+                        <div class="stats-grid" id="statsGrid">
+                            <div class="empty-state">
+                                <i class="fas fa-chart-pie"></i>
+                                <p>Sélectionnez un joueur pour afficher ses statistiques</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="tab-leaderboard" class="tab-content">
+                <div class="leaderboard-section">
+                    <div class="leaderboard-header">
+                        <div class="leaderboard-title">
+                            <i class="fas fa-crown"></i>
+                            <span>Classement des joueurs</span>
+                        </div>
+                        <select class="sort-select" id="sortBy" onchange="sortLeaderboard()">
+                            <option value="score">Score total</option>
+                            <option value="playtime">Temps de jeu</option>
+                            <option value="blocksBroken">Blocs cassés</option>
+                            <option value="playerKills">Kills joueurs</option>
+                            <option value="mobKills">Kills mobs</option>
+                        </select>
+                    </div>
+                    <div class="leaderboard-list" id="leaderboardList">
+                        <div class="loading-state">
+                            <i class="fas fa-spinner"></i>
+                            <p>Chargement du classement...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <div class="modal-overlay active" id="serverModal">
+        <div class="modal-container">
+            <h2 class="modal-title">Choisir un serveur</h2>
+            <p class="modal-subtitle">Sélectionnez le serveur dont vous souhaitez voir les statistiques</p>
+            <div class="server-options">
+                <div class="server-option" onclick="selectServer('minijeux')">
+                    <div class="server-option-icon minijeux"><i class="fas fa-gamepad"></i></div>
+                    <div class="server-option-info">
+                        <h3>Mini-Jeux</h3>
+                        <p>Serveur de mini-jeux compétitifs</p>
+                    </div>
+                </div>
+                <div class="server-option" onclick="selectServer('smp')">
+                    <div class="server-option-icon smp"><i class="fas fa-mountain"></i></div>
+                    <div class="server-option-info">
+                        <h3>SMP</h3>
+                        <p>Serveur Survival Multiplayer</p>
+                    </div>
+                </div>
+                <div class="server-option" onclick="selectServer('whitelist')">
+                    <div class="server-option-icon whitelist"><i class="fas fa-shield-alt"></i></div>
+                    <div class="server-option-info">
+                        <h3>Whitelist</h3>
+                        <p>Serveur privé sur invitation</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="dock">
+        <a href="index.html" class="dock-item"><i class="fas fa-home"></i><span class="dock-tooltip">Accueil</span></a>
+        <a href="rules.html" class="dock-item"><i class="fas fa-scroll"></i><span class="dock-tooltip">Règles</span></a>
+        <a href="map.html" class="dock-item"><i class="fas fa-map"></i><span class="dock-tooltip">Carte</span></a>
+        <a href="stats.html" class="dock-item active"><i class="fas fa-chart-line"></i><span class="dock-tooltip">Statistiques</span></a>
+        <a href="https://discord.gg/truevanilla" class="dock-item" target="_blank"><i class="fab fa-discord"></i><span class="dock-tooltip">Discord</span></a>
+    </div>
+
+    <script>
+        // ============================================
+        // CONFIGURATION - UPDATE THIS URL
+        // ============================================
+        // Your GitHub Pages URL where JSON files are hosted
+        // Example: https://yourusername.github.io/stats-data
+        const STATS_BASE_URL = 'https://truevanilla.fr/stats';
+        // ============================================
+
+        let currentServer = null;
+        let allPlayers = [];
+
+        function initParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (8 + Math.random() * 4) + 's';
+                container.appendChild(particle);
+            }
+        }
+
+        function selectServer(server) {
+            currentServer = server;
+            document.getElementById('serverModal').classList.remove('active');
+            document.getElementById('currentServer').textContent = server.toUpperCase();
+            loadStats();
+        }
+
+        async function loadStats() {
+            showLoading();
+            try {
+                const response = await fetch(`${STATS_BASE_URL}/${currentServer}.json`);
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const data = await response.json();
+                
+                if (data.players && data.players.length > 0) {
+                    allPlayers = data.players.map(p => ({
+                        uuid: p.uuid, name: p.name, rank: p.rank, score: p.score,
+                        playtime: p.stats.playtime, playtimeFormatted: p.stats.playtimeFormatted,
+                        blocksBroken: p.stats.blocksBroken, blocksPlaced: p.stats.blocksPlaced,
+                        playerKills: p.stats.playerKills, mobKills: p.stats.mobKills,
+                        deaths: p.stats.deaths, kdRatio: p.stats.kdRatio,
+                        damageDealt: p.stats.damageDealt, damageTaken: p.stats.damageTaken,
+                        distanceWalked: p.stats.distanceWalked, distanceSprinted: p.stats.distanceSprinted,
+                        distanceSwum: p.stats.distanceSwum, distanceFlown: p.stats.distanceFlown,
+                        totalDistance: p.stats.totalDistance, jumps: p.stats.jumps,
+                        itemsCrafted: p.stats.itemsCrafted, itemsUsed: p.stats.itemsUsed,
+                        itemsBroken: p.stats.itemsBroken, fishCaught: p.stats.fishCaught,
+                        animalsBred: p.stats.animalsBred, raidsWon: p.stats.raidsWon,
+                        enchantments: p.stats.enchantments, villagerTrades: p.stats.villagerTrades
+                    }));
+                    renderLeaderboard();
+                } else { showEmpty(); }
+            } catch (error) { console.error('Failed to load stats:', error); showError(); }
+        }
+
+        function showLoading() {
+            document.getElementById('leaderboardList').innerHTML = `<div class="loading-state"><i class="fas fa-spinner"></i><p>Chargement des statistiques...</p></div>`;
+        }
+        function showError() {
+            document.getElementById('leaderboardList').innerHTML = `<div class="error-state"><i class="fas fa-exclamation-triangle"></i><p>Impossible de charger les statistiques</p><button class="retry-btn" onclick="loadStats()">Réessayer</button></div>`;
+        }
+        function showEmpty() {
+            document.getElementById('leaderboardList').innerHTML = `<div class="empty-state"><i class="fas fa-users-slash"></i><p>Aucun joueur trouvé sur ce serveur</p></div>`;
+        }
+
+        const searchInput = document.getElementById('playerSearch');
+        const suggestions = document.getElementById('searchSuggestions');
+
+        searchInput.addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            if (query.length < 2) { suggestions.classList.remove('show'); return; }
+            const matches = allPlayers.filter(p => p.name.toLowerCase().includes(query)).slice(0, 5);
+            if (matches.length > 0) {
+                suggestions.innerHTML = matches.map(p => `<div class="suggestion-item" onclick="selectPlayer('${p.uuid}')"><img src="https://mc-heads.net/avatar/${p.name}/32" alt="${p.name}"><span>${p.name}</span></div>`).join('');
+                suggestions.classList.add('show');
+            } else { suggestions.classList.remove('show'); }
+        });
+        searchInput.addEventListener('blur', () => setTimeout(() => suggestions.classList.remove('show'), 200));
+
+        function selectPlayer(uuid) {
+            const player = allPlayers.find(p => p.uuid === uuid);
+            if (!player) return;
+            suggestions.classList.remove('show');
+            searchInput.value = player.name;
+            const rankClass = player.rank === 1 ? 'top-1' : player.rank === 2 ? 'top-2' : player.rank === 3 ? 'top-3' : 'default';
+            document.getElementById('playerDisplay').innerHTML = `
+                <div class="player-model"><img src="https://mc-heads.net/body/${player.name}/200" alt="${player.name}"></div>
+                <div class="player-name">${player.name}</div>
+                <div class="player-rank ${rankClass}"><i class="fas fa-trophy"></i>#${player.rank} - ${player.score.toLocaleString()} pts</div>`;
+            document.getElementById('playerDisplay').classList.remove('empty');
+            renderPlayerStats(player);
+        }
+
+        function renderPlayerStats(p) {
+            const kd = p.deaths > 0 ? (p.playerKills / p.deaths).toFixed(2) : p.playerKills;
+            const cfg = [
+                { key: 'playtimeFormatted', label: 'Temps de jeu', icon: 'fa-clock', color: 'aqua', fmt: v => v },
+                { key: 'blocksBroken', label: 'Blocs cassés', icon: 'fa-cube', color: 'blue', fmt: v => v.toLocaleString() },
+                { key: 'blocksPlaced', label: 'Blocs placés', icon: 'fa-cubes', color: 'blue', fmt: v => v.toLocaleString() },
+                { key: 'playerKills', label: 'Joueurs tués', icon: 'fa-skull-crossbones', color: 'red', fmt: v => v.toLocaleString() },
+                { key: 'mobKills', label: 'Mobs tués', icon: 'fa-spider', color: 'red', fmt: v => v.toLocaleString() },
+                { key: 'deaths', label: 'Morts', icon: 'fa-skull', color: 'red', fmt: v => v.toLocaleString() },
+                { key: 'totalDistance', label: 'Distance totale', icon: 'fa-route', color: 'green', fmt: v => formatDistance(v) },
+                { key: 'jumps', label: 'Sauts', icon: 'fa-arrow-up', color: 'green', fmt: v => v.toLocaleString() },
+                { key: 'itemsCrafted', label: 'Objets craftés', icon: 'fa-hammer', color: 'purple', fmt: v => v.toLocaleString() },
+                { key: 'fishCaught', label: 'Poissons pêchés', icon: 'fa-fish', color: 'aqua', fmt: v => v.toLocaleString() },
+                { key: 'animalsBred', label: 'Animaux élevés', icon: 'fa-heart', color: 'red', fmt: v => v.toLocaleString() },
+                { key: 'enchantments', label: 'Enchantements', icon: 'fa-magic', color: 'purple', fmt: v => v.toLocaleString() },
+                { key: 'villagerTrades', label: 'Échanges PNJ', icon: 'fa-handshake', color: 'gold', fmt: v => v.toLocaleString() },
+                { key: 'damageDealt', label: 'Dégâts infligés', icon: 'fa-hand-fist', color: 'red', fmt: v => v.toLocaleString() }
+            ];
+            document.getElementById('statsGrid').innerHTML = cfg.map(s => `
+                <div class="stat-card">
+                    <div class="stat-card-header"><div class="stat-card-icon ${s.color}"><i class="fas ${s.icon}"></i></div><span class="stat-card-label">${s.label}</span></div>
+                    <div class="stat-card-value">${s.fmt(p[s.key])}</div>
+                    ${s.key === 'playerKills' ? `<div class="stat-card-subvalue">K/D: ${kd}</div>` : ''}
+                </div>`).join('');
+        }
+
+        function renderLeaderboard(sortBy = 'score') {
+            const sorted = [...allPlayers].sort((a, b) => sortBy === 'playtime' ? b.playtime - a.playtime : b[sortBy] - a[sortBy]);
+            document.getElementById('leaderboardList').innerHTML = sorted.map((p, i) => {
+                const rank = i + 1;
+                const tc = rank === 1 ? 'top-1' : rank === 2 ? 'top-2' : rank === 3 ? 'top-3' : '';
+                return `<div class="leaderboard-item ${tc}" onclick="viewPlayerStats('${p.uuid}')">
+                    <div class="leaderboard-rank">#${rank}</div>
+                    <div class="leaderboard-avatar"><img src="https://mc-heads.net/avatar/${p.name}/48" alt="${p.name}"></div>
+                    <div class="leaderboard-info">
+                        <div class="leaderboard-name">${p.name}</div>
+                        <div class="leaderboard-mini-stats">
+                            <span class="leaderboard-mini-stat"><i class="fas fa-clock"></i> ${p.playtimeFormatted}</span>
+                            <span class="leaderboard-mini-stat"><i class="fas fa-skull"></i> ${p.playerKills} kills</span>
+                            <span class="leaderboard-mini-stat"><i class="fas fa-cube"></i> ${(p.blocksBroken / 1000).toFixed(1)}k blocs</span>
+                        </div>
+                    </div>
+                    <div class="leaderboard-score">${sortBy === 'score' ? p.score.toLocaleString() : sortBy === 'playtime' ? p.playtimeFormatted : p[sortBy].toLocaleString()}<span>${sortBy === 'score' ? 'pts' : ''}</span></div>
+                </div>`;
+            }).join('');
+        }
+
+        function sortLeaderboard() { renderLeaderboard(document.getElementById('sortBy').value); }
+        function viewPlayerStats(uuid) { switchCategory('individual'); selectPlayer(uuid); }
+        function switchCategory(cat) {
+            document.querySelectorAll('.category-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelector(`.category-tab:nth-child(${cat === 'individual' ? 1 : 2})`).classList.add('active');
+            document.getElementById(`tab-${cat}`).classList.add('active');
+        }
+        function formatDistance(blocks) {
+            if (blocks >= 1000000) return `${(blocks / 1000000).toFixed(1)}M blocs`;
+            if (blocks >= 1000) return `${(blocks / 1000).toFixed(1)}k blocs`;
+            return `${Math.round(blocks)} blocs`;
+        }
+        initParticles();
+    </script>
+</body>
+</html>
