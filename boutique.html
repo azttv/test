@@ -1,0 +1,1816 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>True Vanilla - Boutique</title>
+    <meta content="Boutique officielle de True Vanilla !" name="description">
+    <link rel="icon" type="image/png" href="icons/favicon.png">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #0a0d12;
+            --bg-card: #111827;
+            --accent-aqua: #06b6d4;
+            --accent-aqua-light: #22d3ee;
+            --accent-aqua-glow: rgba(6, 182, 212, 0.3);
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-pink: #ec4899;
+            --accent-gold: #f59e0b;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(17, 24, 39, 0.9);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        .bg-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            background:
+                radial-gradient(ellipse at 15% 30%, rgba(6, 182, 212, 0.12) 0%, transparent 50%),
+                radial-gradient(ellipse at 85% 70%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 100%, rgba(6, 182, 212, 0.05) 0%, transparent 60%);
+        }
+
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--accent-aqua);
+            border-radius: 50%;
+            opacity: 0;
+            animation: float-particle 10s infinite ease-in-out;
+        }
+
+        @keyframes float-particle {
+            0%, 100% {
+                transform: translateY(100vh) scale(0);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-10vh) scale(1);
+                opacity: 0;
+            }
+        }
+
+        /* Header */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 0 2rem;
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .season-badge {
+            font-family: 'Cinzel', serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--accent-aqua);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            padding: 0.5rem 1rem;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(6, 182, 212, 0.05));
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 4px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .season-badge::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.2), transparent);
+            animation: shimmer 3s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        .header-center {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .nav-left, .nav-right {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .nav-btn {
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            background: transparent;
+            border: none;
+            padding: 0.6rem 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            border-radius: 6px;
+            text-decoration: none;
+        }
+
+        .nav-btn::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--accent-aqua);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .nav-btn:hover {
+            color: var(--text-primary);
+        }
+
+        .nav-btn:hover::after {
+            width: 60%;
+        }
+        .nav-btn.active { color: var(--accent-aqua); }
+        .nav-btn.active::after { width: 60%; }
+
+        .logo-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px var(--accent-aqua-glow));
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+        .logo:hover {
+            transform: scale(1.1) rotate(5deg);
+            filter: drop-shadow(0 0 20px var(--accent-aqua-glow));
+        }
+
+        .header-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            cursor: pointer;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .header-right:hover {
+            background: rgba(6, 182, 212, 0.1);
+        }
+
+        .server-ip {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .server-ip i {
+            color: var(--accent-aqua);
+            font-size: 0.8rem;
+        }
+
+        .bedrock-port {
+            font-size: 0.90rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        .copy-tooltip {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: var(--accent-aqua);
+            color: var(--bg-dark);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            opacity: 0;
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+            white-space: nowrap;
+            z-index: 1001;
+        }
+
+        .copy-tooltip::before {
+            content: '';
+            position: absolute;
+            top: -6px;
+            right: 20px;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-bottom: 6px solid var(--accent-aqua);
+        }
+
+        .copy-tooltip.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Main Content */
+        main {
+            position: relative;
+            z-index: 1;
+            padding-top: 180px;
+            padding-bottom: 120px;
+        }
+
+        /* Page Title */
+        .page-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .page-title h1 {
+            font-family: 'Cinzel', serif;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-title h1 span {
+            color: var(--accent-aqua);
+        }
+
+        .page-title p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Shop Container */
+        .shop-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        /* Category Section */
+        .category-section {
+            margin-bottom: 4rem;
+        }
+
+        .category-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .category-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(6, 182, 212, 0.05));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .category-icon.vip {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(139, 92, 246, 0.05));
+        }
+
+        .category-icon.cosmetic {
+            background: linear-gradient(135deg, rgba(236, 72, 153, 0.2), rgba(236, 72, 153, 0.05));
+        }
+
+        .category-icon.advantages {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(6, 182, 212, 0.05));
+        }
+
+        .category-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Product Grid */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        /* Product Card */
+        .product-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid var(--border-subtle);
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .product-card.featured {
+            border-color: rgba(245, 158, 11, 0.5);
+        }
+
+        .product-card.featured::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: conic-gradient(
+                from 0deg,
+                var(--accent-gold),
+                var(--accent-purple),
+                var(--accent-aqua),
+                var(--accent-gold)
+            );
+            border-radius: 18px;
+            z-index: -1;
+            animation: goldRotate 4s linear infinite;
+        }
+
+        .product-card.featured::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            right: 2px;
+            bottom: 2px;
+            background: var(--bg-card);
+            border-radius: 14px;
+            z-index: -1;
+        }
+
+        @keyframes goldRotate {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        .product-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
+        }
+
+        .product-image {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            border: 1px solid var(--border-subtle);
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover .product-image {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .product-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .product-duration {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-aqua);
+            margin-bottom: 1.5rem;
+        }
+
+        .product-card.featured .product-price {
+            color: var(--accent-gold);
+        }
+
+        .buy-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 2rem;
+            background: linear-gradient(135deg, var(--accent-aqua), #0891b2);
+            color: var(--bg-dark);
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3);
+        }
+
+        .buy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(6, 182, 212, 0.4);
+        }
+
+        .product-card.featured .buy-btn {
+            background: linear-gradient(135deg, var(--accent-gold), #d97706);
+            box-shadow: 0 4px 15px rgba(245, 158, 11, 0.3);
+        }
+
+        .product-card.featured .buy-btn:hover {
+            box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: linear-gradient(135deg, var(--accent-gold), #d97706);
+            color: var(--bg-dark);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            z-index: 1000;
+        }
+
+        /* VIP Advantages Section */
+        .advantages-section {
+            background: var(--bg-card);
+            border-radius: 20px;
+            border: 1px solid var(--border-subtle);
+            padding: 2.5rem;
+            margin-bottom: 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .advantages-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 0% 50%, rgba(139, 92, 246, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 100% 50%, rgba(236, 72, 153, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .advantages-header {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .advantages-header h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .advantages-header h2 span {
+            color: var(--accent-aqua);
+        }
+
+        .advantages-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .advantage-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .advantage-item:hover {
+            background: rgba(255, 255, 255, 0.06);
+            transform: translateX(5px);
+        }
+
+        .advantage-icon {
+            font-size: 1.5rem;
+            width: 40px;
+            text-align: center;
+            flex-shrink: 0;
+        }
+
+        .advantage-text {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+        }
+
+        /* Conditions Section */
+        .conditions-section {
+            background: var(--bg-card);
+            border-radius: 20px;
+            border: 1px solid var(--border-subtle);
+            padding: 2.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .conditions-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .conditions-header h2 {
+            font-family: 'Cinzel', serif;
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--accent-aqua);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .conditions-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .condition-item {
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        .condition-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+
+        .condition-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--accent-aqua);
+            margin-bottom: 0.5rem;
+        }
+
+        .condition-text {
+            font-size: 0.95rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Disclaimer Modal */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-container {
+            background: var(--bg-card);
+            border-radius: 16px;
+            border: 1px solid var(--border-subtle);
+            width: 90%;
+            max-width: 550px;
+            max-height: 90vh;
+            overflow: hidden;
+            transform: scale(0.9) translateY(20px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-overlay.active .modal-container {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+            background: rgba(245, 158, 11, 0.1);
+        }
+
+        .modal-header-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .modal-header-content i {
+            font-size: 1.5rem;
+            color: var(--accent-gold);
+        }
+
+        .modal-title {
+            font-family: 'Cinzel', serif;
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .modal-close {
+            width: 36px;
+            height: 36px;
+            border: none;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            color: var(--text-muted);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        .modal-body {
+            padding: 1.5rem;
+        }
+
+        .modal-body p {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-body p strong {
+            color: var(--accent-gold);
+        }
+
+        .modal-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, var(--accent-aqua), #0891b2);
+            color: var(--bg-dark);
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(6, 182, 212, 0.4);
+        }
+
+        /* Image Lightbox */
+        .lightbox-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            backdrop-filter: blur(10px);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .lightbox-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .lightbox-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1.5rem;
+            transform: scale(0.9);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .lightbox-overlay.active .lightbox-content {
+            transform: scale(1);
+        }
+
+        #lightboxImage {
+            max-width: 90vw;
+            max-height: 75vh;
+            object-fit: contain;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--border-subtle);
+        }
+
+        .lightbox-close {
+            width: 50px;
+            height: 50px;
+            border: none;
+            background: var(--bg-card);
+            border-radius: 50%;
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-subtle);
+            font-size: 1.2rem;
+        }
+
+        .lightbox-close:hover {
+            background: var(--accent-aqua);
+            color: var(--bg-dark);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(6, 182, 212, 0.5);
+        }
+
+        .product-image {
+            cursor: pointer;
+        }
+
+        .product-image:hover {
+            opacity: 0.9;
+        }
+
+        /* Join Modal Styles */
+        .join-modal {
+            max-width: 750px;
+        }
+
+        .join-header {
+            background: transparent;
+        }
+
+        .modal-tabs {
+            display: flex;
+            gap: 0.5rem;
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid var(--border-subtle);
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+        }
+
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+
+        .tab-btn.active {
+            background: var(--accent-aqua);
+            color: var(--bg-dark);
+        }
+
+        .tab-content {
+            display: none;
+            padding: 1.5rem;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        .server-address-box {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            padding: 1rem 1.25rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .server-address-box .address {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+        }
+
+        .server-address-box .address-copy {
+            background: rgba(6, 182, 212, 0.2);
+            border: none;
+            color: var(--accent-aqua);
+            padding: 0.4rem 0.6rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .server-address-box .address-copy:hover {
+            background: var(--accent-aqua);
+            color: var(--bg-dark);
+        }
+
+        .server-address-box .port {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        .instructions-title {
+            font-family: 'Outfit', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .instructions-list {
+            list-style: none;
+            counter-reset: step-counter;
+        }
+
+        .instructions-list > li {
+            counter-increment: step-counter;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            margin-bottom: 0.85rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .instructions-list > li::before {
+            content: counter(step-counter) ".";
+            font-weight: 600;
+            color: var(--accent-aqua);
+            min-width: 1.25rem;
+            flex-shrink: 0;
+        }
+
+        .instructions-list li strong {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .field-list {
+            list-style: none;
+            margin-top: 0.6rem;
+            margin-left: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .field-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .field-list li::before {
+            content: "•";
+            color: var(--text-muted);
+            margin-right: 0.25rem;
+        }
+
+        .field-list .field-label {
+            color: var(--text-muted);
+        }
+
+        .field-list .field-value {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        .note-box {
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            border-radius: 8px;
+            padding: 0.875rem 1rem;
+            margin-top: 1.25rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.5;
+        }
+
+        .note-box strong {
+            color: var(--accent-aqua);
+        }
+
+        /* DOCK STYLES */
+        .dock-container {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1500;
+            display: flex; align-items: flex-end; justify-content: center; gap: 8px; padding: 12px 16px;
+            background: rgba(17, 24, 39, 0.85); backdrop-filter: blur(20px); border-radius: 20px;
+            border: 1px solid var(--border-subtle); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+        .dock-item { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); position: relative; text-decoration: none; }
+        .dock-icon {
+            width: 50px; height: 50px; background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(6, 182, 212, 0.05));
+            border-radius: 14px; display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); border: 1px solid rgba(6, 182, 212, 0.2);
+        }
+        .dock-icon i { font-size: 1.4rem; color: var(--accent-aqua); transition: all 0.2s ease; }
+        .dock-item:hover .dock-icon { background: linear-gradient(135deg, rgba(6, 182, 212, 0.4), rgba(6, 182, 212, 0.15)); box-shadow: 0 0 20px rgba(6, 182, 212, 0.4); border-color: rgba(6, 182, 212, 0.5); }
+        .dock-item:hover .dock-icon i { transform: scale(1.1); }
+        .dock-tooltip {
+            position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%) translateY(10px);
+            background: var(--bg-card); color: var(--text-primary); padding: 8px 14px; border-radius: 8px;
+            font-size: 0.85rem; font-weight: 500; white-space: nowrap; opacity: 0; visibility: hidden;
+            transition: all 0.2s ease; border: 1px solid var(--border-subtle); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); pointer-events: none;
+        }
+        .dock-tooltip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 6px solid var(--bg-card); }
+        .dock-item:hover .dock-tooltip { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+        .dock-item.magnify-1 { transform: scale(1.15) translateY(-5px); }
+        .dock-item.magnify-2 { transform: scale(1.35) translateY(-12px); }
+        .dock-item.magnify-1 .dock-icon { background: linear-gradient(135deg, rgba(6, 182, 212, 0.3), rgba(6, 182, 212, 0.1)); }
+        .dock-item.magnify-2 .dock-icon { background: linear-gradient(135deg, rgba(6, 182, 212, 0.4), rgba(6, 182, 212, 0.15)); box-shadow: 0 0 25px rgba(6, 182, 212, 0.5); }
+        .dock-separator { width: 1px; height: 40px; background: var(--border-subtle); margin: 0 8px; }
+
+        /* Scroll Indicator */
+        .scroll-indicator {
+            position: fixed;
+            left: 40px;
+            top: 50%;
+            transform: translateY(-50%);
+            z-index: 1500;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0;
+        }
+
+        .scroll-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .scroll-circle {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 3px solid #3d5a6e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .scroll-circle-inner {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .scroll-circle.active {
+            border-color: var(--accent-aqua);
+            box-shadow: 0 0 15px rgba(6, 182, 212, 0.5);
+        }
+
+        .scroll-circle.active .scroll-circle-inner {
+            background: var(--accent-aqua);
+        }
+
+        .scroll-item:hover .scroll-circle {
+            border-color: var(--accent-aqua);
+            transform: scale(1.1);
+        }
+
+        .scroll-label {
+            position: absolute;
+            left: 36px;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+        }
+
+        .scroll-item:hover .scroll-label,
+        .scroll-circle.active + .scroll-label {
+            opacity: 1;
+            transform: translateX(0);
+            color: var(--text-primary);
+        }
+
+        .scroll-line {
+            width: 3px;
+            height: 50px;
+            background: #3d5a6e;
+            border-radius: 2px;
+        }
+
+        /* First circle (top) larger style */
+        .scroll-item:first-child .scroll-circle {
+            width: 28px;
+            height: 28px;
+        }
+
+        .scroll-item:first-child .scroll-circle-inner {
+            width: 10px;
+            height: 10px;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .products-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .advantages-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .scroll-indicator {
+                left: 20px;
+            }
+            .scroll-label {
+                display: none;
+            }
+        }
+
+        @media (max-width: 900px) {
+            .products-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .scroll-indicator {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 1rem; height: auto; flex-wrap: wrap; gap: 1rem; }
+            .header-left { order: 1; flex: 1; }
+            .header-center { order: 3; position: static; transform: none; width: 100%; justify-content: center; flex-wrap: wrap; gap: 0.5rem; }
+            .header-right { order: 2; }
+            .nav-left, .nav-right { gap: 0; }
+            .nav-btn { padding: 0.5rem 0.8rem; font-size: 0.8rem; }
+            .season-badge { font-size: 0.7rem; padding: 0.4rem 0.8rem; }
+            main { padding-top: 140px; }
+            .page-title h1 { font-size: 1.75rem; }
+            .advantages-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 600px) {
+            .products-grid {
+                grid-template-columns: 1fr;
+            }
+            .dock-container {
+                bottom: 15px;
+                padding: 10px 14px;
+                gap: 6px;
+            }
+            .dock-icon {
+                width: 44px;
+                height: 44px;
+                border-radius: 12px;
+            }
+            .dock-icon i {
+                font-size: 1.2rem;
+            }
+            .dock-tooltip {
+                font-size: 0.75rem;
+                padding: 6px 10px;
+            }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--accent-aqua); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #0891b2; }
+    </style>
+</head>
+<body>
+    <div class="bg-pattern"></div>
+    <div class="particles" id="particles"></div>
+
+    <!-- Dock -->
+    <div class="dock-container" id="dock">
+        <a href="historique.html" class="dock-item"><div class="dock-icon"><i class="fas fa-clock-rotate-left"></i></div><span class="dock-tooltip">Historique</span></a>
+        <a href="stats.html" class="dock-item"><div class="dock-icon"><i class="fas fa-chart-line"></i></div><span class="dock-tooltip">Statistiques</span>
+        <a href="honte.html" class="dock-item"><div class="dock-icon"><i class="fas fa-handcuffs"></i></div><span class="dock-tooltip">Mur de la honte</span></a>
+        <div class="dock-separator"></div>
+        <a href="#" onclick="window.open('https://discord.gg/HefFTCS4cp', '_blank')" class="dock-item"><div class="dock-icon"><i class="fa-brands fa-discord"></i></div><span class="dock-tooltip">Discord</span></a>
+        <a href="#" onclick="window.open('https://www.youtube.com/@truevanillafr', '_blank')" class="dock-item"><div class="dock-icon"><i class="fa-brands fa-youtube"></i></div><span class="dock-tooltip">Youtube</span></a>
+        <a href="#" onclick="window.open('https://www.instagram.com/truevanillafr', '_blank')" class="dock-item"><div class="dock-icon"><i class="fa-brands fa-instagram"></i></div><span class="dock-tooltip">Instagram</span></a>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="scroll-indicator" id="scrollIndicator">
+        <div class="scroll-item" data-section="section-vip" onclick="scrollToSection('section-vip')">
+            <div class="scroll-circle active">
+                <div class="scroll-circle-inner"></div>
+            </div>
+            <span class="scroll-label">VIP</span>
+        </div>
+        <div class="scroll-line"></div>
+        <div class="scroll-item" data-section="section-cosmetiques" onclick="scrollToSection('section-cosmetiques')">
+            <div class="scroll-circle">
+                <div class="scroll-circle-inner"></div>
+            </div>
+            <span class="scroll-label">Cosmétiques</span>
+        </div>
+        <div class="scroll-line"></div>
+        <div class="scroll-item" data-section="section-conditions" onclick="scrollToSection('section-conditions')">
+            <div class="scroll-circle">
+                <div class="scroll-circle-inner"></div>
+            </div>
+            <span class="scroll-label">Conditions</span>
+        </div>
+    </div>
+
+    <!-- Disclaimer Modal -->
+    <div class="modal-overlay" id="disclaimerModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <div class="modal-header-content">
+                    <i class="fas fa-triangle-exclamation"></i>
+                    <h2 class="modal-title">Information Importante</h2>
+                </div>
+                <button class="modal-close" onclick="closeDisclaimerModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <strong>Les grades VIP ne sont pas cumulables.</strong><br><br>
+                    Si vous possédez déjà un VIP actif et que vous achetez un nouveau pack VIP, le nouveau remplacera l'ancien <strong>sans compensation ni prolongation</strong>.<br><br>
+                    Veuillez attendre que votre VIP actuel expire avant d'en acheter un nouveau.
+                </p>
+                <button class="modal-btn" onclick="closeDisclaimerModal()">
+                    <i class="fas fa-check"></i>
+                    J'ai compris
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Image Lightbox -->
+    <div class="lightbox-overlay" id="imageLightbox" onclick="closeLightbox(event)">
+        <div class="lightbox-content">
+            <img src="" alt="Bundle Preview" id="lightboxImage">
+            <button class="lightbox-close" onclick="closeLightbox(event)">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Join Modal -->
+    <div class="modal-overlay" id="joinModal">
+        <div class="modal-container join-modal">
+            <div class="modal-header join-header">
+                <h2 class="modal-title">Rejoindre le serveur</h2>
+                <button class="modal-close" onclick="closeJoinModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-tabs">
+                <button class="tab-btn active" onclick="switchTab('java')">Java Edition</button>
+                <button class="tab-btn" onclick="switchTab('bedrock')">Bedrock Edition</button>
+            </div>
+            <div class="tab-content active" id="tab-java">
+                <div class="server-address-box">
+                    <div class="address">
+                        <span>play.true-vanilla.fr</span>
+                        <button class="address-copy" onclick="copyAddress('play.true-vanilla.fr')"><i class="fas fa-copy"></i></button>
+                    </div>
+                </div>
+                <h3 class="instructions-title">Comment rejoindre (Java Edition)</h3>
+                <ol class="instructions-list">
+                    <li>Ouvrez Minecraft Java Edition (version 1.21.4 ou supérieure)</li>
+                    <li>Depuis le menu principal, cliquez sur <strong>"Multijoueur"</strong></li>
+                    <li>Cliquez sur <strong>"Ajouter un serveur"</strong></li>
+                    <li>Dans le champ "Adresse du serveur", saisissez <strong>play.true-vanilla.fr</strong></li>
+                    <li>Cliquez sur <strong>"Terminé"</strong> puis sélectionnez le serveur dans la liste</li>
+                    <li>Cliquez sur <strong>"Rejoindre le serveur"</strong></li>
+                </ol>
+            </div>
+            <div class="tab-content" id="tab-bedrock">
+                <div class="server-address-box">
+                    <div class="address">
+                        <span>play.true-vanilla.fr</span>
+                        <button class="address-copy" onclick="copyAddress('play.true-vanilla.fr')"><i class="fas fa-copy"></i></button>
+                    </div>
+                    <div class="port">Port: 50327</div>
+                </div>
+                <h3 class="instructions-title">Comment rejoindre (Bedrock Edition)</h3>
+                <ol class="instructions-list">
+                    <li>Ouvrez Minecraft Bedrock Edition</li>
+                    <li>Allez dans l'onglet <strong>"Serveurs"</strong></li>
+                    <li>Faites défiler jusqu'en bas et cliquez sur <strong>"Ajouter un serveur"</strong></li>
+                    <li>Remplissez les champs suivants:
+                        <ul class="field-list">
+                            <li><span class="field-label">Nom du serveur:</span> <span class="field-value">True Vanilla</span></li>
+                            <li><span class="field-label">Adresse du serveur:</span> <span class="field-value">play.true-vanilla.fr</span></li>
+                            <li><span class="field-label">Port:</span> <span class="field-value">50327</span></li>
+                        </ul>
+                    </li>
+                    <li>Appuyez sur <strong>"Enregistrer"</strong></li>
+                    <li>Sélectionnez <strong>"True Vanilla"</strong> dans votre liste de serveurs</li>
+                </ol>
+                <div class="note-box">
+                    <strong>Note:</strong> True Vanilla est compatible avec toutes les plateformes Bedrock (mobile, console, Windows 10/11).
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-left">
+            <div class="season-badge">Chapitre 2 - Saison 1</div>
+        </div>
+        <div class="header-center">
+            <nav class="nav-left">
+                <a href="index.html" class="nav-btn">Accueil</a>
+                <a href="#" class="nav-btn" onclick="openJoinModal(); return false;">Rejoindre</a>
+            </nav>
+            <div class="logo-container">
+                <a href="index.html"><img src="icons/logo.png" alt="Logo" class="logo"></a>
+            </div>
+            <nav class="nav-right">
+                <a href="#" class="nav-btn active">Boutique</a>
+                <a href="about.html" class="nav-btn">À propos</a>
+            </nav>
+        </div>
+        <div class="header-right" id="copyIp" onclick="copyToClipboard()">
+            <div class="server-ip"><i class="fas fa-circle"></i> play.true-vanilla.fr</div>
+            <div class="bedrock-port">Port Bedrock: 50327</div>
+            <div class="copy-tooltip" id="copyTooltip">Copié !</div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="shop-container">
+            <!-- Page Title -->
+            <div class="page-title">
+                <h1><span>🛒</span> Boutique</h1>
+                <p>Soutenez le serveur et débloquez des avantages exclusifs</p>
+            </div>
+
+            <!-- VIP Grade Category -->
+            <section class="category-section" id="section-vip">
+                <div class="category-header">
+                    <div class="category-icon vip">💎</div>
+                    <h2 class="category-title">Grade VIP</h2>
+                </div>
+                <div class="products-grid">
+                    <div class="product-card">
+                        <span class="product-icon">✨</span>
+                        <h3 class="product-name">VIP 1 Mois</h3>
+                        <p class="product-duration">Durée : 30 jours</p>
+                        <div class="product-price">7,99€ <s>9,99€</s></div>
+                        <a href="#" class="buy-btn" onclick="window.open('https://shop.true-vanilla.fr/vip-1-mois', '_blank'); return false;">
+                            <i class="fas fa-shopping-cart"></i> Acheter
+                        </a>
+                    </div>
+                    <div class="product-card">
+                        <span class="product-icon">⭐</span>
+                        <h3 class="product-name">VIP 3 Mois</h3>
+                        <p class="product-duration">Durée : 90 jours</p>
+                        <div class="product-price">12,99€ <s>14,99€</s></div>
+                        <a href="#" class="buy-btn" onclick="window.open('https://shop.true-vanilla.fr/vip-3-mois', '_blank'); return false;">
+                            <i class="fas fa-shopping-cart"></i> Acheter
+                        </a>
+                    </div>
+                    <div class="product-card">
+                        <span class="product-icon">⚡</span>
+                        <h3 class="product-name">VIP 6 Mois</h3>
+                        <p class="product-duration">Durée : 180 jours</p>
+                        <div class="product-price">17,99€ <s>19,99€</s></div>
+                        <a href="#" class="buy-btn" onclick="window.open('https://shop.true-vanilla.fr/vip-6-mois', '_blank'); return false;">
+                            <i class="fas fa-shopping-cart"></i> Acheter
+                        </a>
+                    </div>
+                    <div class="product-card featured">
+                        <span class="featured-badge">Meilleure offre</span>
+                        <span class="product-icon">👑</span>
+                        <h3 class="product-name">VIP à vie</h3>
+                        <p class="product-duration">Durée : Illimitée</p>
+                        <div class="product-price">49,99€</div>
+                        <a href="#" class="buy-btn" onclick="window.open('https://shop.true-vanilla.fr/vip-lifetime', '_blank'); return false;">
+                            <i class="fas fa-shopping-cart"></i> Acheter
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- VIP Advantages Section -->
+            <section class="advantages-section">
+                <div class="advantages-header">
+                    <span style="font-size: 2rem;">💎</span>
+                    <h2>Avantages du <span>VIP</span></h2>
+                </div>
+                <div class="advantages-grid">
+                    <div class="advantage-item">
+                        <span class="advantage-icon">💎</span>
+                        <span class="advantage-text">Téléportations instantanées</span>
+                    </div>
+                    <div class="advantage-item">
+                        <span class="advantage-icon">🏠</span>
+                        <span class="advantage-text">3 homes au lieu de 2</span>
+                    </div>
+                    <div class="advantage-item">
+                        <span class="advantage-icon">🎨</span>
+                        <span class="advantage-text">Couleur de pseudo au choix</span>
+                    </div>
+                    <div class="advantage-item">
+                        <span class="advantage-icon">💬</span>
+                        <span class="advantage-text">Accès au #ingame-chat sur le Discord</span>
+                    </div>
+                    <div class="advantage-item">
+                        <span class="advantage-icon">🎮</span>
+                        <span class="advantage-text">Accès aux votes (Serveur Mini-jeux)</span>
+                    </div>
+                    <div class="advantage-item">
+                        <span class="advantage-icon">🛒</span>
+                        <span class="advantage-text">Accès au /trade</span>
+                    </div>
+                    <div class="advantage-item">
+                        <span class="advantage-icon">🎫</span>
+                        <span class="advantage-text">Tickets prioritaires</span>
+                    </div>
+                    <div class="advantage-item">
+                        <span class="advantage-icon">⭐</span>
+                        <span class="advantage-text">Accès aux exclus des saisons suivantes</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Cosmétiques Category -->
+            <section class="category-section" id="section-cosmetiques">
+                <div class="category-header">
+                    <div class="category-icon cosmetic">🎨</div>
+                    <h2 class="category-title">Cosmétiques</h2>
+                </div>
+                <div class="products-grid">
+                    <div class="product-card">
+                        <span class="product-icon">🔑</span>
+                        <h3 class="product-name">Clé Caisse Cosmétique SMP</h3>
+                        <p class="product-duration">Cosmétiques aléatoires</p>
+                        <div class="product-price">1,50€</div>
+                        <a href="#" class="buy-btn" onclick="window.open('https://shop.true-vanilla.fr/cle-smp', '_blank'); return false;">
+                            <i class="fas fa-shopping-cart"></i> Acheter
+                        </a>
+                    </div>
+                    <div class="product-card">
+                        <span class="product-icon">🗝️</span>
+                        <h3 class="product-name">Clé Cosmétique Mini-Jeux</h3>
+                        <p class="product-duration">Cosmétiques aléatoires</p>
+                        <div class="product-price">1,50€</div>
+                        <a href="#" class="buy-btn" onclick="window.open('https://shop.true-vanilla.fr/cle-minijeux', '_blank'); return false;">
+                            <i class="fas fa-shopping-cart"></i> Acheter
+                        </a>
+                    </div>
+                    <div class="product-card">
+                        <img src="bundles/enfer.png" alt="Bundle Enfer" class="product-image" onclick="openLightbox(this.src)">
+                        <h3 class="product-name">Bundle Enfer</h3>
+                        <p class="product-duration">Skins pour Netherite</p>
+                        <div class="product-price">11,99€</div>
+                        <a href="#" class="buy-btn" onclick="window.open('https://shop.true-vanilla.fr/bundle-enfer', '_blank'); return false;">
+                            <i class="fas fa-shopping-cart"></i> Acheter
+                        </a>
+                    </div>
+                    <div class="product-card">
+                        <img src="bundles/permafrost.png" alt="Bundle Permafrost" class="product-image" onclick="openLightbox(this.src)">
+                        <h3 class="product-name">Bundle Permafrost</h3>
+                        <p class="product-duration">Skins pour Netherite</p>
+                        <div class="product-price">11,99€</div>
+                        <a href="#" class="buy-btn" onclick="window.open('https://shop.true-vanilla.fr/bundle-permafrost', '_blank'); return false;">
+                            <i class="fas fa-shopping-cart"></i> Acheter
+                        </a>
+                    </div>
+                    <div class="product-card">
+                        <img src="bundles/unicorn.png" alt="Bundle Arc-en-Ciel" class="product-image" onclick="openLightbox(this.src)">
+                        <h3 class="product-name">Bundle Arc-en-Ciel</h3>
+                        <p class="product-duration">Skins pour Netherite</p>
+                        <div class="product-price">11,99€</div>
+                        <a href="#" class="buy-btn" onclick="window.open('https://shop.true-vanilla.fr/bundle-arc-en-ciel', '_blank'); return false;">
+                            <i class="fas fa-shopping-cart"></i> Acheter
+                        </a>
+                    </div>
+                    <div class="product-card">
+                        <img src="bundles/polishedamethyst.png" alt="Bundle Améthyste" class="product-image" onclick="openLightbox(this.src)">
+                        <h3 class="product-name">Bundle Améthyste</h3>
+                        <p class="product-duration">Skins pour Netherite</p>
+                        <div class="product-price">11,99€</div>
+                        <a href="#" class="buy-btn" onclick="window.open('https://shop.true-vanilla.fr/bundle-amethyste', '_blank'); return false;">
+                            <i class="fas fa-shopping-cart"></i> Acheter
+                        </a>
+                    </div>
+                    <div class="product-card featured">
+                        <span class="featured-badge">Meilleure offre</span>
+                        <img src="bundles/pack.png" alt="Pack Ultimate" class="product-image" onclick="openLightbox(this.src)">
+                        <h3 class="product-name">Pack Ultimate</h3>
+                        <p class="product-duration">4 Bundles en un pack !</p>
+                        <div class="product-price">39,99€ <s>50€</s></div>
+                        <a href="#" class="buy-btn" onclick="window.open('https://shop.true-vanilla.fr/bundle-amethyste', '_blank'); return false;">
+                            <i class="fas fa-shopping-cart"></i> Acheter
+                        </a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Conditions d'Achat Section -->
+            <section class="conditions-section" id="section-conditions">
+                <div class="conditions-header">
+                    <span style="font-size: 1.5rem;">📋</span>
+                    <h2>Conditions d'Achat</h2>
+                </div>
+                <div class="conditions-list">
+                    <div class="condition-item">
+                        <h3 class="condition-title">Politique de remboursement :</h3>
+                        <p class="condition-text">Aucun remboursement ne sera effectué en cas d'achat multiple ou de doublon. Veuillez vérifier attentivement votre panier avant de valider votre commande.</p>
+                    </div>
+                    <div class="condition-item">
+                        <h3 class="condition-title">Délai de livraison :</h3>
+                        <p class="condition-text">Les avantages achetés sont généralement attribués automatiquement dans les 5 minutes suivant la validation du paiement. En cas de retard, veuillez contacter notre support.</p>
+                    </div>
+                    <div class="condition-item">
+                        <h3 class="condition-title">Cumul des packs VIP :</h3>
+                        <p class="condition-text">Les différentes durées de VIP ne peuvent pas être cumulées. Si vous possédez déjà un VIP actif et achetez un nouveau pack, le nouveau remplacera l'ancien sans compensation.</p>
+                    </div>
+                    <div class="condition-item">
+                        <h3 class="condition-title">Litiges et contestations :</h3>
+                        <p class="condition-text">Toute contestation de paiement (chargeback) après réception des avantages entraînera la révocation immédiate et définitive de votre VIP. Vous ne pourrez plus effectuer d'achat sur la boutique et pourriez faire l'objet de sanctions sur le serveur.</p>
+                    </div>
+                    <div class="condition-item">
+                        <h3 class="condition-title">Modification des services :</h3>
+                        <p class="condition-text">L'équipe de True Vanilla se réserve le droit de modifier les avantages offerts dans les packs VIP. Les changements seront communiqués en avance et ne s'appliqueront qu'aux nouveaux achats.</p>
+                    </div>
+                    <div class="condition-item">
+                        <h3 class="condition-title">Sanctions et bannissements :</h3>
+                        <p class="condition-text">L'achat d'un pack VIP ne vous exempte pas du respect des règles du serveur. En cas de bannissement justifié, aucun remboursement ne sera effectué.</p>
+                    </div>
+                    <div class="condition-item">
+                        <h3 class="condition-title">Changements de pseudos :</h3>
+                        <p class="condition-text">Votre grade est lié avec votre pseudo, donc si vous souhaitez changer de pseudo alors que vous avez un VIP en cours, merci d'attendre que votre VIP expire pour ensuite changer de pseudo.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        function copyToClipboard() {
+            navigator.clipboard.writeText('play.true-vanilla.fr').then(() => {
+                const tooltip = document.getElementById('copyTooltip');
+                tooltip.classList.add('show');
+                setTimeout(() => tooltip.classList.remove('show'), 2000);
+            });
+        }
+
+        function openDisclaimerModal() {
+            document.getElementById('disclaimerModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDisclaimerModal() {
+            document.getElementById('disclaimerModal').classList.remove('active');
+            document.body.style.overflow = '';
+            localStorage.setItem('disclaimerSeen', 'true');
+        }
+
+        document.getElementById('disclaimerModal').addEventListener('click', function(e) {
+            if (e.target === this) closeDisclaimerModal();
+        });
+
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeDisclaimerModal();
+                closeLightbox();
+                closeJoinModal();
+            }
+        });
+
+        // Image Lightbox functions
+        function openLightbox(imageSrc) {
+            document.getElementById('lightboxImage').src = imageSrc;
+            document.getElementById('imageLightbox').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox(event) {
+            if (event) {
+                // Only close if clicking on overlay or close button, not on the image
+                if (event.target.id === 'imageLightbox' || event.target.closest('.lightbox-close')) {
+                    document.getElementById('imageLightbox').classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            } else {
+                document.getElementById('imageLightbox').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Join Modal functions
+        function openJoinModal() {
+            document.getElementById('joinModal').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeJoinModal() {
+            document.getElementById('joinModal').classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('joinModal').addEventListener('click', function(e) {
+            if (e.target === this) closeJoinModal();
+        });
+
+        function copyAddress(address) {
+            navigator.clipboard.writeText(address).then(() => {
+                const btn = event.target.closest('.address-copy');
+                const originalIcon = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i>';
+                btn.style.background = 'var(--accent-aqua)';
+                btn.style.color = 'var(--bg-dark)';
+                setTimeout(() => { btn.innerHTML = originalIcon; btn.style.background = ''; btn.style.color = ''; }, 1500);
+            });
+        }
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+        }
+
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 25; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 10 + 's';
+                particle.style.animationDuration = (8 + Math.random() * 6) + 's';
+                const size = 2 + Math.random() * 4;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                if (Math.random() > 0.6) particle.style.background = '#3b82f6';
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // Dock magnification effect
+        function initDock() {
+            const dock = document.getElementById('dock');
+            const dockItems = dock.querySelectorAll('.dock-item');
+
+            dock.addEventListener('mousemove', (e) => {
+                const dockRect = dock.getBoundingClientRect();
+
+                dockItems.forEach((item, index) => {
+                    const itemRect = item.getBoundingClientRect();
+                    const itemCenterX = itemRect.left + itemRect.width / 2;
+                    const distance = Math.abs(e.clientX - itemCenterX);
+
+                    // Remove all magnify classes
+                    item.classList.remove('magnify-1', 'magnify-2');
+
+                    // Apply magnification based on distance
+                    if (distance < 30) {
+                        item.classList.add('magnify-2');
+                    } else if (distance < 70) {
+                        item.classList.add('magnify-1');
+                    }
+                });
+            });
+
+            dock.addEventListener('mouseleave', () => {
+                dockItems.forEach(item => {
+                    item.classList.remove('magnify-1', 'magnify-2');
+                });
+            });
+        }
+
+        // Scroll Indicator
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                const headerOffset = 100;
+                const elementPosition = section.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        function updateScrollIndicator() {
+            const sections = [
+                { id: 'section-vip', element: document.getElementById('section-vip') },
+                { id: 'section-cosmetiques', element: document.getElementById('section-cosmetiques') },
+                { id: 'section-conditions', element: document.getElementById('section-conditions') }
+            ];
+
+            const scrollItems = document.querySelectorAll('.scroll-item');
+            const windowHeight = window.innerHeight;
+            const scrollPosition = window.scrollY + windowHeight / 3;
+
+            let activeIndex = 0;
+
+            sections.forEach((section, index) => {
+                if (section.element) {
+                    const sectionTop = section.element.offsetTop;
+                    const sectionBottom = sectionTop + section.element.offsetHeight;
+
+                    if (scrollPosition >= sectionTop) {
+                        activeIndex = index;
+                    }
+                }
+            });
+
+            scrollItems.forEach((item, index) => {
+                const circle = item.querySelector('.scroll-circle');
+                if (index === activeIndex) {
+                    circle.classList.add('active');
+                } else {
+                    circle.classList.remove('active');
+                }
+            });
+        }
+
+        // Initialize scroll indicator
+        function initScrollIndicator() {
+            window.addEventListener('scroll', updateScrollIndicator);
+            updateScrollIndicator(); // Initial call
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            createParticles();
+            initDock();
+            initScrollIndicator();
+
+            // Show disclaimer modal on page load (only if not seen before in this session)
+            if (!sessionStorage.getItem('disclaimerSeen')) {
+                setTimeout(() => {
+                    openDisclaimerModal();
+                    sessionStorage.setItem('disclaimerSeen', 'true');
+                }, 500);
+            }
+        });
+    </script>
+</body>
+</html>

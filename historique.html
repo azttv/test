@@ -1,0 +1,1019 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>True Vanilla - Historique des Saisons</title>
+    <meta content="Toute l'histoire de True Vanilla !" name="description">
+    <link rel="icon" type="image/png" href="icons/favicon.png">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-dark: #0a0d12;
+            --bg-card: #111827;
+            --accent-aqua: #06b6d4;
+            --accent-aqua-light: #22d3ee;
+            --accent-aqua-glow: rgba(6, 182, 212, 0.3);
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-green: #22c55e;
+            --accent-orange: #f97316;
+            --accent-gray: #475569;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(17, 24, 39, 0.9);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Outfit', sans-serif; background: var(--bg-dark); color: var(--text-primary); min-height: 100vh; overflow-x: hidden; }
+
+        .bg-pattern {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none;
+            background: radial-gradient(ellipse at 15% 30%, rgba(6, 182, 212, 0.12) 0%, transparent 50%),
+                        radial-gradient(ellipse at 85% 70%, rgba(59, 130, 246, 0.08) 0%, transparent 50%),
+                        radial-gradient(ellipse at 50% 100%, rgba(6, 182, 212, 0.05) 0%, transparent 60%);
+        }
+
+        .particles { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; overflow: hidden; }
+        .particle { position: absolute; width: 4px; height: 4px; background: var(--accent-aqua); border-radius: 50%; opacity: 0; animation: float-particle 10s infinite ease-in-out; }
+        @keyframes float-particle { 0%, 100% { transform: translateY(100vh) scale(0); opacity: 0; } 10% { opacity: 0.5; } 90% { opacity: 0.5; } 100% { transform: translateY(-10vh) scale(1); opacity: 0; } }
+
+        header { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; padding: 0 2rem; height: 80px; display: flex; align-items: center; justify-content: space-between; background: var(--glass-bg); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-subtle); }
+        .header-left { display: flex; align-items: center; gap: 0.5rem; }
+        .season-badge { font-family: 'Cinzel', serif; font-size: 0.85rem; font-weight: 600; color: var(--accent-aqua); letter-spacing: 0.15em; text-transform: uppercase; padding: 0.5rem 1rem; background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(6, 182, 212, 0.05)); border: 1px solid rgba(6, 182, 212, 0.3); border-radius: 4px; position: relative; overflow: hidden; }
+        .season-badge::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(6, 182, 212, 0.2), transparent); animation: shimmer 3s infinite; }
+        @keyframes shimmer { 0% { left: -100%; } 100% { left: 100%; } }
+
+        .header-center { display: flex; align-items: center; gap: 2rem; position: absolute; left: 50%; transform: translateX(-50%); }
+        .nav-left, .nav-right { display: flex; gap: 0.5rem; }
+        .nav-btn { font-family: 'Outfit', sans-serif; font-size: 0.9rem; font-weight: 500; color: var(--text-secondary); background: transparent; border: none; padding: 0.6rem 1.2rem; cursor: pointer; transition: all 0.3s ease; position: relative; border-radius: 6px; text-decoration: none; }
+        .nav-btn::after { content: ''; position: absolute; bottom: 4px; left: 50%; width: 0; height: 2px; background: var(--accent-aqua); transition: all 0.3s ease; transform: translateX(-50%); border-radius: 2px; }
+        .nav-btn:hover { color: var(--text-primary); }
+        .nav-btn:hover::after { width: 60%; }
+        .nav-btn.active { color: var(--accent-aqua); }
+        .nav-btn.active::after { width: 60%; }
+
+        .logo-container { display: flex; align-items: center; justify-content: center; }
+        .logo { width: 100px; height: 100px; object-fit: contain; filter: drop-shadow(0 0 10px var(--accent-aqua-glow)); transition: transform 0.3s ease, filter 0.3s ease; }
+        .logo:hover { transform: scale(1.1) rotate(5deg); filter: drop-shadow(0 0 20px var(--accent-aqua-glow)); }
+
+        .header-right { display: flex; flex-direction: column; align-items: flex-end; cursor: pointer; padding: 0.5rem 1rem; border-radius: 8px; transition: all 0.3s ease; position: relative; }
+        .header-right:hover { background: rgba(6, 182, 212, 0.1); }
+        .server-ip { font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem; }
+        .server-ip i { color: var(--accent-aqua); font-size: 0.8rem; }
+        .bedrock-port { font-size: 0.90rem; color: var(--text-muted); margin-top: 2px; }
+        .copy-tooltip { position: absolute; top: calc(100% + 8px); right: 0; background: var(--accent-aqua); color: var(--bg-dark); padding: 0.5rem 1rem; border-radius: 6px; font-size: 0.85rem; font-weight: 600; opacity: 0; transform: translateY(-5px); transition: all 0.3s ease; pointer-events: none; white-space: nowrap; z-index: 1001; }
+        .copy-tooltip::before { content: ''; position: absolute; top: -6px; right: 20px; border-left: 6px solid transparent; border-right: 6px solid transparent; border-bottom: 6px solid var(--accent-aqua); }
+        .copy-tooltip.show { opacity: 1; transform: translateY(0); }
+
+        main { position: relative; z-index: 1; padding-top: 120px; padding-bottom: 120px; }
+
+        .page-header { text-align: center; margin-bottom: 4rem; padding: 0 2rem; }
+        .page-title { font-family: 'Cinzel', serif; font-size: 3rem; font-weight: 700; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; }
+        .page-title span { color: var(--accent-aqua); }
+        .page-subtitle { font-size: 1.1rem; color: var(--text-secondary); max-width: 600px; margin: 0 auto; line-height: 1.6; }
+
+        .chapter-section { max-width: 1400px; margin: 0 auto 5rem; padding: 0 2rem; }
+        .chapter-header { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2.5rem; padding: 2rem; background: var(--bg-card); border-radius: 20px; border: 1px solid var(--border-subtle); position: relative; overflow: hidden; }
+        .chapter-header::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px; background: linear-gradient(90deg, var(--accent-aqua), var(--accent-blue), var(--accent-purple)); }
+        .chapter-header.purple::before { background: linear-gradient(90deg, var(--accent-purple), var(--accent-blue), var(--accent-aqua)); }
+
+        .chapter-icon { width: 80px; height: 80px; background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(6, 182, 212, 0.05)); border-radius: 20px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; border: 1px solid rgba(6, 182, 212, 0.3); }
+        .chapter-icon i { font-size: 2rem; color: var(--accent-aqua); }
+        .chapter-icon.purple { background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(139, 92, 246, 0.05)); border-color: rgba(139, 92, 246, 0.3); }
+        .chapter-icon.purple i { color: var(--accent-purple); }
+
+        .chapter-info { flex: 1; }
+        .chapter-title { font-family: 'Cinzel', serif; font-size: 2rem; font-weight: 700; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem; }
+        .chapter-title span { color: var(--accent-aqua); }
+        .chapter-title.purple span { color: var(--accent-purple); }
+
+        .chapter-meta { display: flex; align-items: center; gap: 2rem; color: var(--text-secondary); font-size: 0.95rem; }
+        .chapter-meta-item { display: flex; align-items: center; gap: 0.5rem; }
+        .chapter-meta-item i { color: var(--accent-aqua); }
+        .chapter-meta-item.purple i { color: var(--accent-purple); }
+
+        .chapter-stats { display: flex; gap: 1.5rem; margin-left: auto; }
+        .chapter-stat { text-align: center; padding: 0.75rem 1.5rem; background: rgba(0, 0, 0, 0.2); border-radius: 12px; }
+        .chapter-stat-value { font-size: 1.5rem; font-weight: 700; color: var(--accent-aqua); }
+        .chapter-stat.purple .chapter-stat-value { color: var(--accent-purple); }
+        .chapter-stat-label { font-size: 0.75rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+        .mega-card { background: var(--bg-card); border-radius: 20px; border: 1px solid var(--border-subtle); overflow: hidden; transition: all 0.3s ease; }
+        .mega-card:hover { box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4); border-color: rgba(6, 182, 212, 0.3); }
+        .mega-card.purple:hover { border-color: rgba(139, 92, 246, 0.3); }
+
+        .mega-card-header { padding: 2rem; background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), transparent); border-bottom: 1px solid var(--border-subtle); display: flex; align-items: center; justify-content: space-between; }
+        .mega-card-header.purple { background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), transparent); }
+        .mega-card-title { font-family: 'Cinzel', serif; font-size: 3.5rem; font-weight: 700; color: var(--text-primary); }
+        .mega-card-title span { color: var(--accent-aqua); }
+        .mega-card-title span.purple { color: var(--accent-purple); }
+        .mega-card-dates { display: flex; align-items: center; gap: 1rem; font-size: 0.9rem; color: var(--text-secondary); }
+        .mega-card-dates i { color: var(--accent-aqua); }
+        .mega-card-dates.purple i { color: var(--accent-purple); }
+
+        .seasons-tabs { display: flex; border-bottom: 1px solid var(--border-subtle); background: rgba(0, 0, 0, 0.2); overflow-x: auto; }
+        .season-tab { flex: 1; min-width: 120px; padding: 1rem 1.5rem; font-family: 'Outfit', sans-serif; font-size: 0.9rem; font-weight: 600; color: var(--text-muted); background: transparent; border: none; cursor: pointer; transition: all 0.3s ease; position: relative; text-align: center; }
+        .season-tab:hover { color: var(--text-secondary); background: rgba(255, 255, 255, 0.02); }
+        .season-tab.active { color: var(--accent-aqua); background: rgba(6, 182, 212, 0.05); }
+        .season-tab.active::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: var(--accent-aqua); }
+        .season-tab.purple:hover { background: rgba(139, 92, 246, 0.05); }
+        .season-tab.purple.active { color: var(--accent-purple); background: rgba(139, 92, 246, 0.1); }
+        .season-tab.purple.active::after { background: var(--accent-purple); }
+
+        .season-tab-content { display: none; padding: 2rem; }
+        .season-tab-content.active { display: block; }
+
+        .tab-inner { display: grid; grid-template-columns: 400px 1fr; gap: 2rem; }
+        .tab-images { display: grid; grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(2, 1fr); gap: 4px; border-radius: 12px; overflow: hidden; aspect-ratio: 4/3; }
+
+        /* Tab Image Styles - supports both placeholder and real images */
+        .tab-image {
+            background: linear-gradient(135deg, rgba(6, 182, 212, 0.1), rgba(6, 182, 212, 0.02));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+        .tab-image:hover { background: linear-gradient(135deg, rgba(6, 182, 212, 0.15), rgba(6, 182, 212, 0.05)); }
+        .tab-image.purple { background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(139, 92, 246, 0.02)); }
+        .tab-image.purple:hover { background: linear-gradient(135deg, rgba(139, 92, 246, 0.15), rgba(139, 92, 246, 0.05)); }
+
+        /* When tab-image contains an actual image */
+        .tab-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        .tab-image:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Placeholder icon style */
+        .tab-image i.placeholder-icon {
+            font-size: 1.5rem;
+            opacity: 0.5;
+        }
+
+        /* Hover overlay for images */
+        .tab-image .image-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .tab-image:hover .image-overlay {
+            opacity: 1;
+        }
+        .tab-image .image-overlay i {
+            font-size: 1.5rem;
+            color: white;
+        }
+
+        .tab-content-info { display: flex; flex-direction: column; }
+        .tab-header-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+        .tab-dates { display: flex; gap: 2rem; }
+        .tab-date { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; color: var(--text-secondary); }
+        .tab-date i { color: var(--accent-aqua); }
+        .tab-date.purple i { color: var(--accent-purple); }
+        .tab-date.end i { color: var(--accent-orange); }
+        .tab-date.muted { color: var(--text-muted); }
+        .tab-date.muted i { color: var(--text-muted); }
+
+        .tab-description { font-size: 1rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 1.5rem; flex: 1; }
+        .tab-description.muted { color: var(--text-muted); font-style: italic; }
+
+        .tab-stats { display: flex; gap: 1.5rem; margin-bottom: 1.5rem; padding: 1rem; background: rgba(0, 0, 0, 0.2); border-radius: 10px; }
+        .tab-stat { display: flex; align-items: center; gap: 0.5rem; }
+        .tab-stat-icon { width: 32px; height: 32px; background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(6, 182, 212, 0.05)); border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+        .tab-stat-icon i { font-size: 0.85rem; color: var(--accent-aqua); }
+        .tab-stat-icon.purple { background: linear-gradient(135deg, rgba(139, 92, 246, 0.2), rgba(139, 92, 246, 0.05)); }
+        .tab-stat-icon.purple i { color: var(--accent-purple); }
+        .tab-stat-info { display: flex; flex-direction: column; }
+        .tab-stat-value { font-size: 0.95rem; font-weight: 600; color: var(--text-primary); }
+        .tab-stat-label { font-size: 0.7rem; color: var(--text-muted); }
+        .tab-actions { display: flex; gap: 1rem; margin-top: auto; }
+
+        .season-status { display: inline-flex; align-items: center; gap: 0.4rem; padding: 0.5rem 1rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+        .season-status.completed { background: rgba(34, 197, 94, 0.15); color: var(--accent-green); border: 1px solid rgba(34, 197, 94, 0.3); }
+        .season-status.active { background: rgba(139, 92, 246, 0.15); color: var(--accent-purple); border: 1px solid rgba(139, 92, 246, 0.3); animation: pulse-glow-purple 2s ease-in-out infinite; }
+        .season-status.coming { background: rgba(71, 85, 105, 0.15); color: var(--accent-gray); border: 1px solid rgba(71, 85, 105, 0.3); }
+        @keyframes pulse-glow-purple { 0%, 100% { box-shadow: 0 0 0 0 rgba(139, 92, 246, 0.4); } 50% { box-shadow: 0 0 0 10px rgba(139, 92, 246, 0); } }
+
+        .download-btn { display: inline-flex; align-items: center; gap: 0.75rem; padding: 1rem 2rem; background: linear-gradient(135deg, var(--accent-aqua), #0891b2); color: var(--bg-dark); font-family: 'Outfit', sans-serif; font-size: 0.95rem; font-weight: 600; border: none; border-radius: 12px; cursor: pointer; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(6, 182, 212, 0.3); }
+        .download-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 25px rgba(6, 182, 212, 0.4); }
+        .download-btn.purple { background: linear-gradient(135deg, var(--accent-purple), #7c3aed); box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3); }
+        .download-btn.purple:hover { box-shadow: 0 8px 25px rgba(139, 92, 246, 0.4); }
+        .download-btn i { font-size: 1.1rem; }
+        .download-btn.disabled { background: rgba(100, 116, 139, 0.3); color: var(--text-muted); cursor: not-allowed; box-shadow: none; }
+        .download-btn.disabled:hover { transform: none; }
+
+        .gallery-btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 1.5rem; background: rgba(255, 255, 255, 0.05); color: var(--text-secondary); font-family: 'Outfit', sans-serif; font-size: 0.95rem; font-weight: 500; border: 1px solid var(--border-subtle); border-radius: 12px; cursor: pointer; text-decoration: none; transition: all 0.3s ease; }
+        .gallery-btn:hover { background: rgba(255, 255, 255, 0.1); color: var(--text-primary); border-color: rgba(255, 255, 255, 0.2); }
+
+        .tab-images.coming-soon { display: flex; align-items: center; justify-content: center; background: linear-gradient(135deg, rgba(71, 85, 105, 0.1), rgba(71, 85, 105, 0.05)); border-radius: 12px; aspect-ratio: 4/3; }
+        .coming-soon-placeholder { text-align: center; color: var(--text-muted); }
+        .coming-soon-placeholder i { font-size: 3rem; margin-bottom: 1rem; opacity: 0.3; }
+        .coming-soon-placeholder span { display: block; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.1em; }
+        .coming-soon-tab { opacity: 0.7; }
+        .coming-soon-message { display: flex; align-items: center; justify-content: center; gap: 1rem; padding: 1.5rem; margin-top: 1rem; background: rgba(71, 85, 105, 0.1); border: 1px dashed rgba(71, 85, 105, 0.3); border-radius: 12px; color: var(--text-muted); font-size: 0.95rem; }
+        .coming-soon-message i { font-size: 1.25rem; opacity: 0.6; }
+
+        /* Lightbox Styles */
+        .lightbox {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .lightbox.active {
+            display: flex;
+            opacity: 1;
+        }
+        .lightbox-content {
+            position: relative;
+            max-width: 90%;
+            max-height: 90%;
+        }
+        .lightbox-content img {
+            max-width: 100%;
+            max-height: 90vh;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+        }
+        .lightbox-close {
+            position: absolute;
+            top: -40px;
+            right: 0;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 2rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .lightbox-close:hover {
+            transform: scale(1.2);
+        }
+
+        .dock-container {
+            position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 1500;
+            display: flex; align-items: flex-end; justify-content: center; gap: 8px; padding: 12px 16px;
+            background: rgba(17, 24, 39, 0.85); backdrop-filter: blur(20px); border-radius: 20px;
+            border: 1px solid var(--border-subtle); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+        .dock-item { display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); position: relative; text-decoration: none; }
+        .dock-icon {
+            width: 50px; height: 50px; background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(6, 182, 212, 0.05));
+            border-radius: 14px; display: flex; align-items: center; justify-content: center;
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1); border: 1px solid rgba(6, 182, 212, 0.2);
+        }
+        .dock-icon i { font-size: 1.4rem; color: var(--accent-aqua); transition: all 0.2s ease; }
+        .dock-item:hover .dock-icon { background: linear-gradient(135deg, rgba(6, 182, 212, 0.4), rgba(6, 182, 212, 0.15)); box-shadow: 0 0 20px rgba(6, 182, 212, 0.4); border-color: rgba(6, 182, 212, 0.5); }
+        .dock-item:hover .dock-icon i { transform: scale(1.1); }
+        .dock-tooltip {
+            position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%) translateY(10px);
+            background: var(--bg-card); color: var(--text-primary); padding: 8px 14px; border-radius: 8px;
+            font-size: 0.85rem; font-weight: 500; white-space: nowrap; opacity: 0; visibility: hidden;
+            transition: all 0.2s ease; border: 1px solid var(--border-subtle); box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3); pointer-events: none;
+        }
+        .dock-tooltip::after { content: ''; position: absolute; top: 100%; left: 50%; transform: translateX(-50%); border-left: 6px solid transparent; border-right: 6px solid transparent; border-top: 6px solid var(--bg-card); }
+        .dock-item:hover .dock-tooltip { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+        .dock-item.magnify-1 { transform: scale(1.15) translateY(-5px); }
+        .dock-item.magnify-2 { transform: scale(1.35) translateY(-12px); }
+        .dock-item.magnify-1 .dock-icon { background: linear-gradient(135deg, rgba(6, 182, 212, 0.3), rgba(6, 182, 212, 0.1)); }
+        .dock-item.magnify-2 .dock-icon { background: linear-gradient(135deg, rgba(6, 182, 212, 0.4), rgba(6, 182, 212, 0.15)); box-shadow: 0 0 25px rgba(6, 182, 212, 0.5); }
+        .dock-separator { width: 1px; height: 40px; background: var(--border-subtle); margin: 0 8px; }
+
+        @media (max-width: 1200px) {
+            .chapter-header { flex-wrap: wrap; }
+            .chapter-stats { margin-left: 0; margin-top: 1rem; width: 100%; justify-content: flex-start; }
+            .tab-inner { grid-template-columns: 1fr; }
+            .tab-images { max-width: 400px; margin: 0 auto; }
+            .lightbox-prev { left: 10px; }
+            .lightbox-next { right: 10px; }
+        }
+
+        @media (max-width: 768px) {
+            header { padding: 1rem; height: auto; flex-wrap: wrap; gap: 1rem; }
+            .header-left { order: 1; flex: 1; }
+            .header-center { order: 3; position: static; transform: none; width: 100%; justify-content: center; flex-wrap: wrap; gap: 0.5rem; }
+            .header-right { order: 2; }
+            .nav-left, .nav-right { gap: 0; }
+            .nav-btn { padding: 0.5rem 0.8rem; font-size: 0.8rem; }
+            .season-badge { font-size: 0.7rem; padding: 0.4rem 0.8rem; }
+            main { padding-top: 160px; }
+            .page-title { font-size: 2rem; }
+            .chapter-header { padding: 1.5rem; }
+            .chapter-title { font-size: 1.5rem; }
+            .chapter-icon { width: 60px; height: 60px; }
+            .chapter-icon i { font-size: 1.5rem; }
+            .tab-dates { flex-direction: column; gap: 0.5rem; }
+            .tab-stats { flex-wrap: wrap; }
+            .tab-actions { flex-direction: column; }
+            .download-btn, .gallery-btn { width: 100%; justify-content: center; }
+            .seasons-tabs { justify-content: flex-start; }
+            .season-tab { min-width: 80px; padding: 0.75rem 1rem; font-size: 0.8rem; }
+            .mega-card-header { flex-direction: column; gap: 1rem; text-align: center; }
+            .dock-container { bottom: 15px; padding: 10px 14px; gap: 6px; }
+            .dock-icon { width: 44px; height: 44px; border-radius: 12px; }
+            .dock-icon i { font-size: 1.2rem; }
+        }
+
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--accent-aqua); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #0891b2; }
+
+        /* JOIN MODAL STYLES */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.7); backdrop-filter: blur(8px); z-index: 2000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; }
+        .modal-overlay.active { opacity: 1; visibility: visible; }
+        .modal-container { background: var(--bg-card); border-radius: 16px; border: 1px solid var(--border-subtle); width: 90%; max-width: 750px; max-height: 90vh; overflow: hidden; transform: scale(0.9) translateY(20px); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5); }
+        .modal-overlay.active .modal-container { transform: scale(1) translateY(0); }
+        .modal-header { display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border-subtle); }
+        .modal-title { font-family: 'Cinzel', serif; font-size: 1.25rem; font-weight: 600; color: var(--text-primary); text-transform: uppercase; letter-spacing: 0.05em; }
+        .modal-close { width: 36px; height: 36px; border: none; background: rgba(255, 255, 255, 0.05); border-radius: 8px; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s ease; }
+        .modal-close:hover { background: rgba(255, 255, 255, 0.1); color: var(--text-primary); }
+        .modal-tabs { display: flex; gap: 0.5rem; padding: 1rem 1.5rem; border-bottom: 1px solid var(--border-subtle); background: rgba(0, 0, 0, 0.2); }
+        .tab-btn { flex: 1; padding: 0.75rem 1.5rem; border: none; border-radius: 8px; font-family: 'Outfit', sans-serif; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; background: rgba(255, 255, 255, 0.05); color: var(--text-secondary); }
+        .tab-btn:hover { background: rgba(255, 255, 255, 0.1); color: var(--text-primary); }
+        .tab-btn.active { background: var(--accent-aqua); color: var(--bg-dark); }
+        .tab-content { display: none; padding: 1.5rem; }
+        .tab-content.active { display: block; }
+        .server-address-box { background: rgba(0, 0, 0, 0.3); border: 1px solid var(--border-subtle); border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: 1.5rem; text-align: center; }
+        .server-address-box .address { font-family: 'Outfit', sans-serif; font-size: 1.1rem; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; justify-content: center; gap: 0.75rem; }
+        .server-address-box .address-copy { background: rgba(6, 182, 212, 0.2); border: none; color: var(--accent-aqua); padding: 0.4rem 0.6rem; border-radius: 6px; cursor: pointer; transition: all 0.2s ease; }
+        .server-address-box .address-copy:hover { background: var(--accent-aqua); color: var(--bg-dark); }
+        .server-address-box .port { font-size: 0.9rem; color: var(--text-muted); margin-top: 0.5rem; }
+        .instructions-title { font-family: 'Outfit', sans-serif; font-size: 1rem; font-weight: 600; color: var(--text-primary); margin-bottom: 1rem; }
+        .instructions-list { list-style: none; counter-reset: step-counter; }
+        .instructions-list > li { counter-increment: step-counter; display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 0.85rem; font-size: 0.9rem; color: var(--text-secondary); line-height: 1.5; }
+        .instructions-list > li::before { content: counter(step-counter) "."; font-weight: 600; color: var(--accent-aqua); min-width: 1.25rem; flex-shrink: 0; }
+        .instructions-list li strong { color: var(--text-primary); font-weight: 600; }
+        .field-list { list-style: none; margin-top: 0.6rem; margin-left: 1.5rem; display: flex; flex-direction: column; gap: 0.4rem; }
+        .field-list li { display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem; color: var(--text-secondary); }
+        .field-list li::before { content: "•"; color: var(--text-muted); margin-right: 0.25rem; }
+        .field-list .field-label { color: var(--text-muted); }
+        .field-list .field-value { color: var(--text-primary); font-weight: 600; }
+        .note-box { background: rgba(6, 182, 212, 0.1); border: 1px solid rgba(6, 182, 212, 0.2); border-radius: 8px; padding: 0.875rem 1rem; margin-top: 1.25rem; font-size: 0.85rem; color: var(--text-secondary); line-height: 1.5; }
+        .note-box strong { color: var(--accent-aqua); }
+    </style>
+</head>
+<body>
+    <div class="bg-pattern"></div>
+    <div class="particles" id="particles"></div>
+
+    <!-- Join Modal -->
+    <div class="modal-overlay" id="joinModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2 class="modal-title">Rejoindre le serveur</h2>
+                <button class="modal-close" onclick="closeJoinModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-tabs">
+                <button class="tab-btn active" onclick="switchTab('java')">Java Edition</button>
+                <button class="tab-btn" onclick="switchTab('bedrock')">Bedrock Edition</button>
+            </div>
+            <div class="tab-content active" id="tab-java">
+                <div class="server-address-box">
+                    <div class="address">
+                        <span>play.true-vanilla.fr</span>
+                        <button class="address-copy" onclick="copyAddress('play.true-vanilla.fr')"><i class="fas fa-copy"></i></button>
+                    </div>
+                </div>
+                <h3 class="instructions-title">Comment rejoindre (Java Edition)</h3>
+                <ol class="instructions-list">
+                    <li>Ouvrez Minecraft Java Edition (version 1.21.4 ou supérieure)</li>
+                    <li>Depuis le menu principal, cliquez sur <strong>"Multijoueur"</strong></li>
+                    <li>Cliquez sur <strong>"Ajouter un serveur"</strong></li>
+                    <li>Dans le champ "Adresse du serveur", saisissez <strong>play.true-vanilla.fr</strong></li>
+                    <li>Cliquez sur <strong>"Terminé"</strong> puis sélectionnez le serveur dans la liste</li>
+                    <li>Cliquez sur <strong>"Rejoindre le serveur"</strong></li>
+                </ol>
+            </div>
+            <div class="tab-content" id="tab-bedrock">
+                <div class="server-address-box">
+                    <div class="address">
+                        <span>play.true-vanilla.fr</span>
+                        <button class="address-copy" onclick="copyAddress('play.true-vanilla.fr')"><i class="fas fa-copy"></i></button>
+                    </div>
+                    <div class="port">Port: 50327</div>
+                </div>
+                <h3 class="instructions-title">Comment rejoindre (Bedrock Edition)</h3>
+                <ol class="instructions-list">
+                    <li>Ouvrez Minecraft Bedrock Edition</li>
+                    <li>Allez dans l'onglet <strong>"Serveurs"</strong></li>
+                    <li>Faites défiler jusqu'en bas et cliquez sur <strong>"Ajouter un serveur"</strong></li>
+                    <li>Remplissez les champs suivants:
+                        <ul class="field-list">
+                            <li><span class="field-label">Nom du serveur:</span> <span class="field-value">True Vanilla</span></li>
+                            <li><span class="field-label">Adresse du serveur:</span> <span class="field-value">play.true-vanilla.fr</span></li>
+                            <li><span class="field-label">Port:</span> <span class="field-value">50327</span></li>
+                        </ul>
+                    </li>
+                    <li>Appuyez sur <strong>"Enregistrer"</strong></li>
+                    <li>Sélectionnez <strong>"True Vanilla"</strong> dans votre liste de serveurs</li>
+                </ol>
+                <div class="note-box">
+                    <strong>Note:</strong> True Vanilla est compatible avec toutes les plateformes Bedrock (mobile, console, Windows 10/11).
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Lightbox -->
+    <div class="lightbox" id="lightbox">
+        <div class="lightbox-content">
+            <button class="lightbox-close" onclick="closeLightbox()">&times;</button>
+            <button class="lightbox-nav lightbox-prev" onclick="navigateLightbox(-1)"><i class="fas fa-chevron-left"></i></button>
+            <img id="lightbox-img" src="" alt="Image agrandie">
+            <button class="lightbox-nav lightbox-next" onclick="navigateLightbox(1)"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <!-- Dock -->
+    <div class="dock-container" id="dock">
+        <a class="dock-item active"><div class="dock-icon" style="background: linear-gradient(135deg, rgba(6, 182, 212, 0.4), rgba(6, 182, 212, 0.15)); border-color: var(--accent-aqua);"><i class="fas fa-clock-rotate-left"></i></div><span class="dock-tooltip">Historique</span></a>
+        <a href="stats.html" class="dock-item"><div class="dock-icon"><i class="fas fa-chart-line"></i></div><span class="dock-tooltip">Statistiques</span>
+        <a href="honte.html" class="dock-item"><div class="dock-icon"><i class="fas fa-handcuffs"></i></div><span class="dock-tooltip">Mur de la honte</span></a>
+        <div class="dock-separator"></div>
+        <a href="#" onclick="window.open('https://discord.gg/HefFTCS4cp', '_blank')" class="dock-item"><div class="dock-icon"><i class="fa-brands fa-discord"></i></div><span class="dock-tooltip">Discord</span></a>
+        <a href="#" onclick="window.open('https://www.youtube.com/@truevanillafr', '_blank')" class="dock-item"><div class="dock-icon"><i class="fa-brands fa-youtube"></i></div><span class="dock-tooltip">Youtube</span></a>
+        <a href="#" onclick="window.open('https://www.instagram.com/truevanillafr', '_blank')" class="dock-item"><div class="dock-icon"><i class="fa-brands fa-instagram"></i></div><span class="dock-tooltip">Instagram</span></a>
+    </div>
+
+    <!-- Header -->
+    <header>
+        <div class="header-left">
+            <div class="season-badge">Chapitre 2 - Saison 1</div>
+        </div>
+        <div class="header-center">
+            <nav class="nav-left">
+                <a href="index.html" class="nav-btn">Accueil</a>
+                <a href="#" class="nav-btn" onclick="openJoinModal(); return false;">Rejoindre</a>
+            </nav>
+            <div class="logo-container">
+                <a href="index.html"><img src="icons/logo.png" alt="Logo" class="logo"></a>
+            </div>
+            <nav class="nav-right">
+                <a href="boutique.html" class="nav-btn">Boutique</a>
+                <a href="about.html" class="nav-btn">À propos</a>
+            </nav>
+        </div>
+        <div class="header-right" onclick="copyToClipboard()">
+            <div class="server-ip"><i class="fas fa-circle"></i> play.true-vanilla.fr</div>
+            <div class="bedrock-port">Port Bedrock: 50327</div>
+            <div class="copy-tooltip" id="copyTooltip">Copié !</div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <div class="page-header">
+            <h1 class="page-title">Historique des <span>Saisons</span></h1>
+            <p class="page-subtitle">Revivez l'aventure True Vanilla à travers les différentes saisons. Téléchargez les maps et explorez les créations de notre communauté.</p>
+        </div>
+
+        <!-- Chapter 2 -->
+        <section class="chapter-section">
+
+            <div class="mega-card purple">
+                <div class="mega-card-header purple">
+                    <h3 class="mega-card-title">Chapitre 2</h3>
+                    <div class="mega-card-dates purple"><i class="fas fa-calendar-alt"></i><span>Janvier 2026 - Présent</span></div>
+                </div>
+
+                <div class="seasons-tabs">
+                    <button class="season-tab purple active" onclick="switchChapter2Tab(1)">Saison 1</button>
+                    <button class="season-tab purple" onclick="switchChapter2Tab(2)">Saison 2</button>
+                    <button class="season-tab purple" onclick="switchChapter2Tab(3)">Saison 3</button>
+                    <button class="season-tab purple" onclick="switchChapter2Tab(4)">Saison 4</button>
+                    <button class="season-tab purple" onclick="switchChapter2Tab(5)">Saison 5</button>
+                </div>
+
+                <!-- Season 1 - Active -->
+                <div class="season-tab-content active" id="c2-season-tab-1">
+                    <div class="tab-inner">
+                        <div class="tab-images" data-gallery="c2s1">
+                            <!--
+                            ========================================
+                            HOW TO ADD IMAGES:
+                            ========================================
+                            Replace the placeholder div with an image:
+
+                            PLACEHOLDER (no image):
+                            <div class="tab-image purple"><i class="fas fa-image placeholder-icon"></i></div>
+
+                            WITH IMAGE:
+                            <div class="tab-image purple" onclick="openLightbox('images/c2s1/screenshot1.png', 'c2s1')">
+                                <img src="images/c2s1/screenshot1.png" alt="Screenshot 1">
+                                <div class="image-overlay"><i class="fas fa-expand"></i></div>
+                            </div>
+                            ========================================
+                            -->
+                            <div class="tab-image purple"><i class="fas fa-image placeholder-icon"></i></div>
+                            <div class="tab-image purple"><i class="fas fa-image placeholder-icon"></i></div>
+                            <div class="tab-image purple"><i class="fas fa-image placeholder-icon"></i></div>
+                            <div class="tab-image purple"><i class="fas fa-image placeholder-icon"></i></div>
+                        </div>
+                        <div class="tab-content-info">
+                            <div class="tab-header-row">
+                                <div class="tab-dates">
+                                    <div class="tab-date purple"><i class="fas fa-play"></i><span>10 Janvier 2026</span></div>
+                                    <div class="tab-date end"><i class="fas fa-hourglass-half"></i><span>En cours</span></div>
+                                </div>
+                                <span class="season-status active"><i class="fas fa-circle"></i> En cours</span>
+                            </div>
+                            <p class="tab-description">Le début d'une nouvelle ère pour True Vanilla ! Cette première saison du Chapitre 2 marque un tournant avec de nouvelles mécaniques, une map fraîchement générée en 1.21.4, et une communauté plus soudée que jamais.</p>
+                            <div class="tab-stats">
+                                <div class="tab-stat"><div class="tab-stat-icon purple"><i class="fas fa-users"></i></div><div class="tab-stat-info"><span class="tab-stat-value">--</span><span class="tab-stat-label">Joueurs</span></div></div>
+                                <div class="tab-stat"><div class="tab-stat-icon purple"><i class="fas fa-cube"></i></div><div class="tab-stat-info"><span class="tab-stat-value">1.21.4</span><span class="tab-stat-label">Version</span></div></div>
+                                <div class="tab-stat"><div class="tab-stat-icon purple"><i class="fas fa-clock"></i></div><div class="tab-stat-info"><span class="tab-stat-value">8 jours</span><span class="tab-stat-label">Durée</span></div></div>
+                            </div>
+                            <div class="tab-actions">
+                                <a href="#" class="download-btn disabled"><i class="fas fa-download"></i>Téléchargement indisponible</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Season 2 - Coming Soon -->
+                <div class="season-tab-content" id="c2-season-tab-2">
+                    <div class="tab-inner coming-soon-tab">
+                        <div class="tab-images coming-soon">
+                            <div class="coming-soon-placeholder">
+                                <i class="fas fa-clock"></i>
+                                <span>Prochainement</span>
+                            </div>
+                        </div>
+                        <div class="tab-content-info">
+                            <div class="tab-header-row">
+                                <div class="tab-dates">
+                                    <div class="tab-date muted"><i class="fas fa-question"></i><span>Date à déterminer</span></div>
+                                </div>
+                                <span class="season-status coming"><i class="fas fa-clock"></i> Prochainement</span>
+                            </div>
+                            <p class="tab-description muted">Cette saison n'a pas encore commencé. Restez connectés pour découvrir les prochaines aventures qui vous attendent sur True Vanilla !</p>
+                            <div class="coming-soon-message">
+                                <i class="fas fa-hourglass-half"></i>
+                                <span>Les informations de cette saison seront disponibles prochainement</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Season 3 - Coming Soon -->
+                <div class="season-tab-content" id="c2-season-tab-3">
+                    <div class="tab-inner coming-soon-tab">
+                        <div class="tab-images coming-soon">
+                            <div class="coming-soon-placeholder">
+                                <i class="fas fa-clock"></i>
+                                <span>Prochainement</span>
+                            </div>
+                        </div>
+                        <div class="tab-content-info">
+                            <div class="tab-header-row">
+                                <div class="tab-dates">
+                                    <div class="tab-date muted"><i class="fas fa-question"></i><span>Date à déterminer</span></div>
+                                </div>
+                                <span class="season-status coming"><i class="fas fa-clock"></i> Prochainement</span>
+                            </div>
+                            <p class="tab-description muted">Cette saison n'a pas encore commencé. Restez connectés pour découvrir les prochaines aventures qui vous attendent sur True Vanilla !</p>
+                            <div class="coming-soon-message">
+                                <i class="fas fa-hourglass-half"></i>
+                                <span>Les informations de cette saison seront disponibles prochainement</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Season 4 - Coming Soon -->
+                <div class="season-tab-content" id="c2-season-tab-4">
+                    <div class="tab-inner coming-soon-tab">
+                        <div class="tab-images coming-soon">
+                            <div class="coming-soon-placeholder">
+                                <i class="fas fa-clock"></i>
+                                <span>Prochainement</span>
+                            </div>
+                        </div>
+                        <div class="tab-content-info">
+                            <div class="tab-header-row">
+                                <div class="tab-dates">
+                                    <div class="tab-date muted"><i class="fas fa-question"></i><span>Date à déterminer</span></div>
+                                </div>
+                                <span class="season-status coming"><i class="fas fa-clock"></i> Prochainement</span>
+                            </div>
+                            <p class="tab-description muted">Cette saison n'a pas encore commencé. Restez connectés pour découvrir les prochaines aventures qui vous attendent sur True Vanilla !</p>
+                            <div class="coming-soon-message">
+                                <i class="fas fa-hourglass-half"></i>
+                                <span>Les informations de cette saison seront disponibles prochainement</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Season 5 - Coming Soon -->
+                <div class="season-tab-content" id="c2-season-tab-5">
+                    <div class="tab-inner coming-soon-tab">
+                        <div class="tab-images coming-soon">
+                            <div class="coming-soon-placeholder">
+                                <i class="fas fa-clock"></i>
+                                <span>Prochainement</span>
+                            </div>
+                        </div>
+                        <div class="tab-content-info">
+                            <div class="tab-header-row">
+                                <div class="tab-dates">
+                                    <div class="tab-date muted"><i class="fas fa-question"></i><span>Date à déterminer</span></div>
+                                </div>
+                                <span class="season-status coming"><i class="fas fa-clock"></i> Prochainement</span>
+                            </div>
+                            <p class="tab-description muted">Cette saison n'a pas encore commencé. Restez connectés pour découvrir les prochaines aventures qui vous attendent sur True Vanilla !</p>
+                            <div class="coming-soon-message">
+                                <i class="fas fa-hourglass-half"></i>
+                                <span>Les informations de cette saison seront disponibles prochainement</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter 1 -->
+        <section class="chapter-section">
+
+            <div class="mega-card">
+                <div class="mega-card-header">
+                    <h3 class="mega-card-title">Chapitre 1</h3>
+                    <div class="mega-card-dates"><i class="fas fa-calendar-alt"></i><span>Mars 2025 - Décembre 2025</span></div>
+                </div>
+
+                <div class="seasons-tabs">
+                    <button class="season-tab active" onclick="switchSeasonTab(1)">Saison 1</button>
+                    <button class="season-tab" onclick="switchSeasonTab(2)">Saison 2</button>
+                    <button class="season-tab" onclick="switchSeasonTab(3)">Saison 3</button>
+                    <button class="season-tab" onclick="switchSeasonTab(4)">Saison 4</button>
+                    <button class="season-tab" onclick="switchSeasonTab(5)">Saison 5</button>
+                </div>
+
+                <!-- Season 1 -->
+                <div class="season-tab-content active" id="season-tab-1">
+                    <div class="tab-inner">
+                        <div class="tab-images" data-gallery="c1s1">
+                            <!--
+                            ========================================
+                            EXAMPLE WITH IMAGES (uncomment to use):
+                            ========================================
+                            <div class="tab-image" onclick="openLightbox('images/c1s1/img1.png', 'c1s1')">
+                                <img src="images/c1s1/img1.png" alt="Screenshot 1">
+                                <div class="image-overlay"><i class="fas fa-expand"></i></div>
+                            </div>
+                            ========================================
+                            -->
+                            <div class="tab-image purple" onclick="openLightbox('historique/1S1.png', 'c2s1')">
+                                <img src="historique/1S1.png" alt="Screenshot 1">
+                                <div class="image-overlay"><i class="fas fa-expand"></i></div>
+                            </div>
+                            <div class="tab-image purple" onclick="openLightbox('historique/2S1.png', 'c2s1')">
+                                <img src="historique/2S1.png" alt="Screenshot 1">
+                                <div class="image-overlay"><i class="fas fa-expand"></i></div>
+                            </div>
+                            <div class="tab-image purple" onclick="openLightbox('historique/3S1.png', 'c2s1')">
+                                <img src="historique/3S1.png" alt="Screenshot 1">
+                                <div class="image-overlay"><i class="fas fa-expand"></i></div>
+                            </div>
+                            <div class="tab-image purple" onclick="openLightbox('historique/4S1.png', 'c2s1')">
+                                <img src="historique/4S1.png" alt="Screenshot 1">
+                                <div class="image-overlay"><i class="fas fa-expand"></i></div>
+                            </div>
+                        </div>
+                        <div class="tab-content-info">
+                            <div class="tab-dates">
+                                <div class="tab-date"><i class="fas fa-play"></i><span>24 Mai 2025</span></div>
+                                <div class="tab-date end"><i class="fas fa-flag-checkered"></i><span>6 Juillet 2025</span></div>
+                            </div>
+                            <p class="tab-description">Là où tout a commencé ! La première saison de True Vanilla a posé les fondations de ce qui allait devenir une communauté incroyable. En ce début, le serveur avait comme nom "OutlawMC".</p>
+                            <div class="tab-stats">
+                                <div class="tab-stat"><div class="tab-stat-icon"><i class="fas fa-users"></i></div><div class="tab-stat-info"><span class="tab-stat-value">12/20</span><span class="tab-stat-label">Record de joueurs</span></div></div>
+                                <div class="tab-stat"><div class="tab-stat-icon"><i class="fas fa-cube"></i></div><div class="tab-stat-info"><span class="tab-stat-value">1.21.4</span><span class="tab-stat-label">Version</span></div></div>
+                                <div class="tab-stat"><div class="tab-stat-icon"><i class="fas fa-clock"></i></div><div class="tab-stat-info"><span class="tab-stat-value">1 Mois et 2 Semaines</span><span class="tab-stat-label">Durée</span></div></div>
+                                <div class="tab-stat"><div class="tab-stat-icon"><i class="fas fa-map"></i></div><div class="tab-stat-info"><span class="tab-stat-value">2,5k par 2,5k</span><span class="tab-stat-label">Taille de la map</span></div></div>
+                            </div>
+                            <div class="tab-actions">
+                                <a href="#" class="download-btn disabled"><i class="fas fa-download"></i>Téléchargement indisponible (lost media)</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Season 2 -->
+                <div class="season-tab-content" id="season-tab-2">
+                    <div class="tab-inner">
+                        <div class="tab-images" data-gallery="c1s2">
+                            <div class="tab-image purple" onclick="openLightbox('historique/1S2.png', 'c2s1')">
+                                <img src="historique/1S2.png" alt="Screenshot 1">
+                                <div class="image-overlay"><i class="fas fa-expand"></i></div>
+                            </div>
+                            <div class="tab-image purple" onclick="openLightbox('historique/2S2.png', 'c2s1')">
+                                <img src="historique/2S2.png" alt="Screenshot 1">
+                                <div class="image-overlay"><i class="fas fa-expand"></i></div>
+                            </div>
+                            <div class="tab-image purple" onclick="openLightbox('historique/3S2.png', 'c2s1')">
+                                <img src="historique/3S2.png" alt="Screenshot 1">
+                                <div class="image-overlay"><i class="fas fa-expand"></i></div>
+                            </div>
+                            <div class="tab-image purple" onclick="openLightbox('historique/4S2.png', 'c2s1')">
+                                <img src="historique/4S2.png" alt="Screenshot 1">
+                                <div class="image-overlay"><i class="fas fa-expand"></i></div>
+                            </div>
+                        </div>
+                        <div class="tab-content-info">
+                            <div class="tab-dates">
+                                <div class="tab-date"><i class="fas fa-play"></i><span>6 Juillet 2025</span></div>
+                                <div class="tab-date end"><i class="fas fa-flag-checkered"></i><span>10 Août 2025</span></div>
+                            </div>
+                            <p class="tab-description">Une saison de croissance ! Après le succès de la première saison, de nombreux nouveaux joueurs nous ont rejoints. Le serveur a vu naître ses premières grandes constructions et events communautaires.</p>
+                            <div class="tab-stats">
+                                <div class="tab-stat"><div class="tab-stat-icon"><i class="fas fa-users"></i></div><div class="tab-stat-info"><span class="tab-stat-value">24/30</span><span class="tab-stat-label">Record de joueurs</span></div></div>
+                                <div class="tab-stat"><div class="tab-stat-icon"><i class="fas fa-cube"></i></div><div class="tab-stat-info"><span class="tab-stat-value">1.21.4</span><span class="tab-stat-label">Version</span></div></div>
+                                <div class="tab-stat"><div class="tab-stat-icon"><i class="fas fa-clock"></i></div><div class="tab-stat-info"><span class="tab-stat-value">1 Mois et 1 Semaines</span><span class="tab-stat-label">Durée</span></div></div>
+                                <div class="tab-stat"><div class="tab-stat-icon"><i class="fas fa-map"></i></div><div class="tab-stat-info"><span class="tab-stat-value">2,5k par 2,5k</span><span class="tab-stat-label">Taille de la map</span></div></div>
+                            </div>
+                            <div class="tab-actions">
+                                <a href="#" onclick="window.open('https://mega.nz/file/qm5jHBiQ#ypu7gT98OW1iQ-TmLXrGIgAVg_UEW3DroJ2cTNTEa7I', '_blank')" class="download-btn"><i class="fas fa-download"></i>Télécharger la map</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Season 3 -->
+                <div class="season-tab-content" id="season-tab-3">
+                    <div class="tab-inner">
+                        <div class="tab-images" data-gallery="c1s3">
+                            <div class="tab-image purple" onclick="openLightbox('historique/1S3.png', 'c2s1')">
+                                <img src="historique/1S3.png" alt="Screenshot 1">
+                                <div class="image-overlay"><i class="fas fa-expand"></i></div>
+                            </div>
+                            <div class="tab-image purple" onclick="openLightbox('historique/2S3.png', 'c2s1')">
+                                <img src="historique/2S3.png" alt="Screenshot 1">
+                                <div class="image-overlay"><i class="fas fa-expand"></i></div>
+                            </div>
+                            <div class="tab-image purple" onclick="openLightbox('historique/3S3.png', 'c2s1')">
+                                <img src="historique/3S3.png" alt="Screenshot 1">
+                                <div class="image-overlay"><i class="fas fa-expand"></i></div>
+                            </div>
+                            <div class="tab-image purple" onclick="openLightbox('historique/4S3.png', 'c2s1')">
+                                <img src="historique/4S3.png" alt="Screenshot 1">
+                                <div class="image-overlay"><i class="fas fa-expand"></i></div>
+                            </div>
+                        </div>
+                        <div class="tab-content-info">
+                            <div class="tab-dates">
+                                <div class="tab-date"><i class="fas fa-play"></i><span>10 Août 2025</span></div>
+                                <div class="tab-date end"><i class="fas fa-flag-checkered"></i><span>11 Octobre 2025</span></div>
+                            </div>
+                            <p class="tab-description">La saison la plus calme du Chapitre 1 ! Avec la rentrée, les joueurs avaient moins de temps pour jouer, et la plupart des gros projets de builds n'était pas si "gros".</p>
+                            <div class="tab-stats">
+                                <div class="tab-stat"><div class="tab-stat-icon"><i class="fas fa-users"></i></div><div class="tab-stat-info"><span class="tab-stat-value">14/30</span><span class="tab-stat-label">Record de joueurs</span></div></div>
+                                <div class="tab-stat"><div class="tab-stat-icon"><i class="fas fa-cube"></i></div><div class="tab-stat-info"><span class="tab-stat-value">1.21.4</span><span class="tab-stat-label">Version</span></div></div>
+                                <div class="tab-stat"><div class="tab-stat-icon"><i class="fas fa-clock"></i></div><div class="tab-stat-info"><span class="tab-stat-value">2 Mois</span><span class="tab-stat-label">Durée</span></div></div>
+                                <div class="tab-stat"><div class="tab-stat-icon"><i class="fas fa-map"></i></div><div class="tab-stat-info"><span class="tab-stat-value">4,5k par 4,5k</span><span class="tab-stat-label">Taille de la map</span></div></div>
+                            </div>
+                            <div class="tab-actions">
+                                <a href="#" onclick="window.open('https://mega.nz/file/CvhDGRzZ#AAfqy9GDYHBCaGfkMXsYoUUd0mjfg6ERZXQSXZ-MjT8', '_blank')" class="download-btn"><i class="fas fa-download"></i>Télécharger la map</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Season 4 -->
+                <div class="season-tab-content" id="season-tab-4">
+                    <div class="tab-inner">
+                        <div class="tab-images" data-gallery="c1s4">
+                            <div class="tab-image purple" onclick="openLightbox('historique/1S4.png', 'c2s1')">
+                                <img src="historique/1S4.png" alt="Screenshot 1">
+                                <div class="image-overlay"><i class="fas fa-expand"></i></div>
+                            </div>
+                            <div class="tab-image purple" onclick="openLightbox('historique/2S4.png', 'c2s1')">
+                                <img src="historique/2S4.png" alt="Screenshot 1">
+                                <div class="image-overlay"><i class="fas fa-expand"></i></div>
+                            </div>
+                            <div class="tab-image purple" onclick="openLightbox('historique/3S4.png', 'c2s1')">
+                                <img src="historique/3S4.png" alt="Screenshot 1">
+                                <div class="image-overlay"><i class="fas fa-expand"></i></div>
+                            </div>
+                            <div class="tab-image purple" onclick="openLightbox('historique/4S4.png', 'c2s1')">
+                                <img src="historique/4S4.png" alt="Screenshot 1">
+                                <div class="image-overlay"><i class="fas fa-expand"></i></div>
+                            </div>
+                        </div>
+                        <div class="tab-content-info">
+                            <div class="tab-dates">
+                                <div class="tab-date"><i class="fas fa-play"></i><span>11 Octobre 2025</span></div>
+                                <div class="tab-date end"><i class="fas fa-flag-checkered"></i><span>1 Décembre 2025</span></div>
+                            </div>
+                            <p class="tab-description">Une saison riche en activités ! Les joueurs ont profité des vacances pour créer des fermes automatiques impressionnantes, des bases immenses. Passage du serveur en 1.21.8</p>
+                            <div class="tab-stats">
+                                <div class="tab-stat"><div class="tab-stat-icon"><i class="fas fa-users"></i></div><div class="tab-stat-info"><span class="tab-stat-value">28/30</span><span class="tab-stat-label">Record de joueurs</span></div></div>
+                                <div class="tab-stat"><div class="tab-stat-icon"><i class="fas fa-cube"></i></div><div class="tab-stat-info"><span class="tab-stat-value">1.21.8</span><span class="tab-stat-label">Version</span></div></div>
+                                <div class="tab-stat"><div class="tab-stat-icon"><i class="fas fa-clock"></i></div><div class="tab-stat-info"><span class="tab-stat-value">2 Mois</span><span class="tab-stat-label">Durée</span></div></div>
+                                <div class="tab-stat"><div class="tab-stat-icon"><i class="fas fa-map"></i></div><div class="tab-stat-info"><span class="tab-stat-value">60M par 60M</span><span class="tab-stat-label">Taille de la map</span></div></div>
+                            </div>
+                            <div class="tab-actions">
+                                <a href="#" class="download-btn disabled"><i class="fas fa-download"></i>Téléchargement indisponible (map trop lourde)</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Season 5 -->
+                <div class="season-tab-content" id="season-tab-5">
+                    <div class="tab-inner">
+                        <div class="tab-images" data-gallery="c1s5">
+                            <div class="tab-image"><i class="fas fa-image placeholder-icon"></i></div>
+                            <div class="tab-image"><i class="fas fa-image placeholder-icon"></i></div>
+                            <div class="tab-image"><i class="fas fa-image placeholder-icon"></i></div>
+                            <div class="tab-image"><i class="fas fa-image placeholder-icon"></i></div>
+                        </div>
+                        <div class="tab-content-info">
+                            <div class="tab-dates">
+                                <div class="tab-date"><i class="fas fa-play"></i><span>1 Décembre 2025</span></div>
+                                <div class="tab-date end"><i class="fas fa-flag-checkered"></i><span>31 Décembre 2025</span></div>
+                            </div>
+                            <p class="tab-description">La saison finale du Chapitre 1 ! Entre constructions monumentales et tests de mini-jeux, c'est la saison la plus riche en contenu du Chapitre 1.</p>
+                            <div class="tab-stats">
+                                <div class="tab-stat"><div class="tab-stat-icon"><i class="fas fa-users"></i></div><div class="tab-stat-info"><span class="tab-stat-value">30/30</span><span class="tab-stat-label">Record de joueurs</span></div></div>
+                                <div class="tab-stat"><div class="tab-stat-icon"><i class="fas fa-cube"></i></div><div class="tab-stat-info"><span class="tab-stat-value">1.21.8</span><span class="tab-stat-label">Version</span></div></div>
+                                <div class="tab-stat"><div class="tab-stat-icon"><i class="fas fa-clock"></i></div><div class="tab-stat-info"><span class="tab-stat-value">107 jours</span><span class="tab-stat-label">Durée</span></div></div>
+                                <div class="tab-stat"><div class="tab-stat-icon"><i class="fas fa-map"></i></div><div class="tab-stat-info"><span class="tab-stat-value">50k par 50k</span><span class="tab-stat-label">Taille de la map</span></div></div>
+                            </div>
+                            <div class="tab-actions">
+                                <a href="https://example.com/maps/c1s5.zip" class="download-btn"><i class="fas fa-download"></i>Télécharger la map</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Lightbox functionality
+        let currentGallery = [];
+        let currentImageIndex = 0;
+
+        function openLightbox(imageSrc, galleryId) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+
+            // Get all images from the same gallery
+            const gallery = document.querySelector(`[data-gallery="${galleryId}"]`);
+            const images = gallery.querySelectorAll('.tab-image img');
+            currentGallery = Array.from(images).map(img => img.src);
+            currentImageIndex = currentGallery.indexOf(imageSrc);
+
+            lightboxImg.src = imageSrc;
+            lightbox.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeLightbox() {
+            const lightbox = document.getElementById('lightbox');
+            lightbox.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        function navigateLightbox(direction) {
+            if (currentGallery.length === 0) return;
+
+            currentImageIndex += direction;
+            if (currentImageIndex < 0) currentImageIndex = currentGallery.length - 1;
+            if (currentImageIndex >= currentGallery.length) currentImageIndex = 0;
+
+            document.getElementById('lightbox-img').src = currentGallery[currentImageIndex];
+        }
+
+        // Close lightbox on background click
+        document.getElementById('lightbox').addEventListener('click', function(e) {
+            if (e.target === this) closeLightbox();
+        });
+
+        // Close lightbox on Escape key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') { closeLightbox(); closeJoinModal(); }
+            if (e.key === 'ArrowLeft') navigateLightbox(-1);
+            if (e.key === 'ArrowRight') navigateLightbox(1);
+        });
+
+        function copyToClipboard() {
+            navigator.clipboard.writeText('play.true-vanilla.fr').then(() => {
+                const tooltip = document.getElementById('copyTooltip');
+                tooltip.classList.add('show');
+                setTimeout(() => tooltip.classList.remove('show'), 2000);
+            });
+        }
+
+        function copyAddress(address) {
+            navigator.clipboard.writeText(address).then(() => {
+                const btn = event.target.closest('.address-copy');
+                const originalIcon = btn.innerHTML;
+                btn.innerHTML = '<i class="fas fa-check"></i>';
+                btn.style.background = 'var(--accent-aqua)';
+                btn.style.color = 'var(--bg-dark)';
+                setTimeout(() => { btn.innerHTML = originalIcon; btn.style.background = ''; btn.style.color = ''; }, 1500);
+            });
+        }
+
+        function openJoinModal() { document.getElementById('joinModal').classList.add('active'); document.body.style.overflow = 'hidden'; }
+        function closeJoinModal() { document.getElementById('joinModal').classList.remove('active'); document.body.style.overflow = ''; }
+
+        document.getElementById('joinModal').addEventListener('click', function(e) { if (e.target === this) closeJoinModal(); });
+
+        function switchTab(tab) {
+            document.querySelectorAll('#joinModal .tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            document.querySelectorAll('#joinModal .tab-content').forEach(content => content.classList.remove('active'));
+            document.getElementById('tab-' + tab).classList.add('active');
+        }
+
+        function createParticles() {
+            const container = document.getElementById('particles');
+            for (let i = 0; i < 25; i++) {
+                const p = document.createElement('div');
+                p.className = 'particle';
+                p.style.left = Math.random() * 100 + '%';
+                p.style.animationDelay = Math.random() * 10 + 's';
+                p.style.animationDuration = (8 + Math.random() * 6) + 's';
+                const size = 2 + Math.random() * 4;
+                p.style.width = size + 'px';
+                p.style.height = size + 'px';
+                if (Math.random() > 0.6) p.style.background = '#3b82f6';
+                container.appendChild(p);
+            }
+        }
+
+        function initDock() {
+            const dock = document.getElementById('dock');
+            const items = dock.querySelectorAll('.dock-item');
+            dock.addEventListener('mousemove', (e) => {
+                items.forEach((item) => {
+                    const rect = item.getBoundingClientRect();
+                    const dist = Math.abs(e.clientX - (rect.left + rect.width / 2));
+                    item.classList.remove('magnify-1', 'magnify-2');
+                    if (dist < 30) item.classList.add('magnify-2');
+                    else if (dist < 70) item.classList.add('magnify-1');
+                });
+            });
+            dock.addEventListener('mouseleave', () => {
+                items.forEach(item => item.classList.remove('magnify-1', 'magnify-2'));
+            });
+        }
+
+        function switchSeasonTab(num) {
+            document.querySelectorAll('.mega-card:not(.purple) .season-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.mega-card:not(.purple) .season-tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.mega-card:not(.purple) .season-tab')[num - 1].classList.add('active');
+            document.getElementById('season-tab-' + num).classList.add('active');
+        }
+
+        function switchChapter2Tab(num) {
+            document.querySelectorAll('.mega-card.purple .season-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.mega-card.purple .season-tab-content').forEach(c => c.classList.remove('active'));
+            document.querySelectorAll('.mega-card.purple .season-tab')[num - 1].classList.add('active');
+            document.getElementById('c2-season-tab-' + num).classList.add('active');
+        }
+
+        document.addEventListener('DOMContentLoaded', () => { createParticles(); initDock(); });
+    </script>
+</body>
+</html>
