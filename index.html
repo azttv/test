@@ -295,6 +295,83 @@
             transform: translateY(0);
         }
 
+        /* Header Right Wrapper */
+        .header-right-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        /* Login Button */
+        .login-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            background: linear-gradient(135deg, var(--accent-aqua), var(--accent-blue));
+            border: none;
+            border-radius: 8px;
+            color: white;
+            font-family: 'Outfit', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px var(--accent-aqua-glow);
+        }
+
+        .login-btn.user-logged {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+        }
+
+        .login-btn.user-logged:hover {
+            background: rgba(6, 182, 212, 0.1);
+            border-color: var(--accent-aqua);
+        }
+
+        /* User Dropdown */
+        .user-dropdown {
+            position: absolute;
+            top: calc(100% + 8px);
+            right: 0;
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: 10px;
+            padding: 0.5rem;
+            min-width: 180px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            z-index: 1001;
+        }
+
+        .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--text-primary);
+        }
+
+        .dropdown-item i {
+            width: 16px;
+            text-align: center;
+        }
+
         /* JOIN MODAL STYLES */
         .modal-overlay {
             position: fixed;
@@ -1220,11 +1297,84 @@
                 padding: 6px 10px;
             }
         }
+
+        /* ACTUALITÉS SECTION */
+        .actualites-section { padding: 5rem 2rem; max-width: 1200px; margin: 0 auto; }
+        .actualites-card { background: var(--bg-card); border: 1px solid var(--border-subtle); border-radius: 20px; overflow: hidden; position: relative; }
+        .actualites-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at 80% 20%, rgba(6, 182, 212, 0.08) 0%, transparent 50%); pointer-events: none; }
+        .actualites-card-header { display: flex; align-items: center; justify-content: space-between; padding: 1.5rem 2rem; border-bottom: 1px solid var(--border-subtle); position: relative; z-index: 1; }
+        .actualites-card-title { display: flex; align-items: center; gap: 1rem; }
+        .actualites-icon { width: 50px; height: 50px; background: linear-gradient(135deg, rgba(6, 182, 212, 0.2), rgba(6, 182, 212, 0.05)); border-radius: 12px; display: flex; align-items: center; justify-content: center; }
+        .actualites-icon i { font-size: 1.4rem; color: var(--accent-aqua); }
+        .actualites-title-text h2 { font-family: 'Cinzel', serif; font-size: 1.5rem; font-weight: 700; color: var(--text-primary); margin: 0; }
+        .actualites-title-text h2 span { color: var(--accent-aqua); }
+        .actualites-title-text p { font-size: 0.9rem; color: var(--text-muted); margin: 0.25rem 0 0 0; }
+        .actualites-controls { display: flex; align-items: center; gap: 1rem; }
+        .actualites-date-filter { display: flex; align-items: center; gap: 0.5rem; background: rgba(0, 0, 0, 0.3); padding: 0.5rem 1rem; border-radius: 8px; border: 1px solid var(--border-subtle); }
+        .actualites-date-filter label { font-size: 0.85rem; color: var(--text-muted); white-space: nowrap; }
+        .actualites-date-filter input[type="date"] { background: transparent; border: none; color: var(--text-primary); font-family: 'Outfit', sans-serif; font-size: 0.9rem; cursor: pointer; outline: none; }
+        .actualites-date-filter input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1); cursor: pointer; }
+        .actualites-nav { display: flex; gap: 0.5rem; }
+        .actualites-nav-btn { width: 40px; height: 40px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--border-subtle); border-radius: 10px; color: var(--text-muted); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
+        .actualites-nav-btn:hover:not(:disabled) { background: rgba(6, 182, 212, 0.1); border-color: var(--accent-aqua); color: var(--accent-aqua); }
+        .actualites-nav-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+        .actualites-carousel-wrapper { position: relative; overflow: hidden; }
+        .actualites-carousel { display: flex; flex-direction: column; transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .actualites-viewport { max-height: 400px; overflow: hidden; position: relative; }
+        .actualite-item { padding: 1.5rem 2rem; border-bottom: 1px solid var(--border-subtle); display: flex; gap: 1.5rem; min-height: 200px; flex-shrink: 0; transition: background 0.3s ease; }
+        .actualite-item:last-child { border-bottom: none; }
+        .actualite-item:hover { background: rgba(6, 182, 212, 0.03); }
+        .actualite-images { flex-shrink: 0; display: grid; gap: 0.5rem; width: 200px; }
+        .actualite-images.single { grid-template-columns: 1fr; }
+        .actualite-images.double { grid-template-columns: repeat(2, 1fr); }
+        .actualite-images.triple { grid-template-columns: repeat(2, 1fr); }
+        .actualite-images.quad { grid-template-columns: repeat(2, 1fr); }
+        .actualite-images img { width: 100%; height: 90px; object-fit: cover; border-radius: 8px; cursor: pointer; transition: transform 0.3s ease, opacity 0.3s ease; }
+        .actualite-images img:hover { transform: scale(1.02); opacity: 0.9; }
+        .actualite-images.single img { height: 150px; }
+        .actualite-body { flex: 1; min-width: 0; display: flex; flex-direction: column; }
+        .actualite-header { display: flex; align-items: flex-start; justify-content: space-between; margin-bottom: 0.75rem; gap: 1rem; }
+        .actualite-title { font-family: 'Cinzel', serif; font-size: 1.15rem; font-weight: 600; color: var(--text-primary); margin: 0; line-height: 1.3; }
+        .actualite-meta { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; color: var(--text-muted); flex-shrink: 0; }
+        .actualite-meta i { color: var(--accent-aqua); }
+        .actualite-description { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.7; flex: 1; white-space: pre-wrap; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 4; -webkit-box-orient: vertical; }
+        .actualite-description strong { color: var(--text-primary); font-weight: 600; }
+        .actualite-description em { font-style: italic; }
+        .actualite-description u { text-decoration: underline; }
+        .actualite-description s { text-decoration: line-through; }
+        .actualite-footer { margin-top: auto; padding-top: 0.75rem; font-size: 0.85rem; color: var(--text-muted); font-style: italic; }
+        .actualites-pagination { display: flex; align-items: center; justify-content: center; gap: 0.5rem; padding: 1rem 2rem; border-top: 1px solid var(--border-subtle); }
+        .pagination-dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(255, 255, 255, 0.2); border: none; cursor: pointer; transition: all 0.3s ease; padding: 0; }
+        .pagination-dot.active { background: var(--accent-aqua); transform: scale(1.3); }
+        .pagination-dot:hover:not(.active) { background: rgba(255, 255, 255, 0.4); }
+        .pagination-info { font-size: 0.85rem; color: var(--text-muted); margin-left: 1rem; }
+        .actualites-loading { text-align: center; padding: 4rem 2rem; color: var(--text-muted); }
+        .actualites-loading i { font-size: 2rem; margin-bottom: 1rem; animation: spin 1s linear infinite; }
+        @keyframes spin { 100% { transform: rotate(360deg); } }
+        .actualites-error { text-align: center; padding: 3rem 2rem; color: #ef4444; }
+        .actualites-error i { font-size: 2rem; margin-bottom: 1rem; }
+        .actualites-error button { margin-top: 1rem; padding: 0.75rem 1.5rem; background: var(--accent-aqua); border: none; border-radius: 8px; color: var(--bg-dark); font-weight: 600; cursor: pointer; }
+        .no-actualites { text-align: center; padding: 4rem 2rem; color: var(--text-muted); }
+        .no-actualites i { font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; }
+        .no-actualites p { font-size: 1.1rem; }
+        .image-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); z-index: 3000; display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: all 0.3s ease; cursor: zoom-out; }
+        .image-modal.active { opacity: 1; visibility: visible; }
+        .image-modal img { max-width: 90%; max-height: 90%; object-fit: contain; border-radius: 8px; }
+        .image-modal-close { position: absolute; top: 20px; right: 20px; width: 40px; height: 40px; background: rgba(255, 255, 255, 0.1); border: none; border-radius: 50%; color: white; font-size: 1.2rem; cursor: pointer; transition: all 0.2s ease; }
+        .image-modal-close:hover { background: rgba(255, 255, 255, 0.2); }
+        @media (max-width: 900px) { .actualites-controls { flex-direction: column; align-items: flex-end; gap: 0.75rem; } }
+        @media (max-width: 768px) { .actualite-item { flex-direction: column; } .actualite-images { width: 100%; } .actualite-images img { height: 120px; } .actualite-images.single img { height: 180px; } .actualites-card-header { flex-direction: column; gap: 1rem; align-items: flex-start; } .actualites-controls { align-self: stretch; } .actualites-date-filter { flex: 1; justify-content: space-between; } }
     </style>
 </head>
 <body>
     <div class="bg-pattern"></div>
     <div class="particles" id="particles"></div>
+
+    <!-- Image Modal -->
+    <div class="image-modal" id="imageModal">
+        <button class="image-modal-close" onclick="closeImageModal()"><i class="fas fa-times"></i></button>
+        <img src="" alt="Image agrandie" id="modalImage">
+    </div>
 
     <!-- Dock -->
     <div class="dock-container" id="dock">
@@ -1313,10 +1463,16 @@
                 <a href="about.html" class="nav-btn">À propos</a>
             </nav>
         </div>
-        <div class="header-right" id="copyIp" onclick="copyToClipboard()">
-            <div class="server-ip"><i class="fas fa-circle"></i> play.true-vanilla.fr</div>
-            <div class="bedrock-port">Port Bedrock: 50327</div>
-            <div class="copy-tooltip" id="copyTooltip">Copié !</div>
+        <div class="header-right-wrapper">
+            <div class="header-right" id="copyIp" onclick="copyToClipboard()">
+                <div class="server-ip"><i class="fas fa-circle"></i> play.true-vanilla.fr</div>
+                <div class="bedrock-port">Port Bedrock: 50327</div>
+                <div class="copy-tooltip" id="copyTooltip">Copié !</div>
+            </div>
+            <a href="login.html" class="login-btn" id="loginBtn">
+                <i class="fas fa-user"></i>
+                <span>Se connecter</span>
+            </a>
         </div>
     </header>
 
@@ -1374,6 +1530,39 @@
                         </div>
                     </div>
                 </div>
+            </div>
+        </section>
+
+        <!-- Actualités Section -->
+        <section class="actualites-section" id="actualites">
+            <div class="actualites-card">
+                <div class="actualites-card-header">
+                    <div class="actualites-card-title">
+                        <div class="actualites-icon"><i class="fas fa-newspaper"></i></div>
+                        <div class="actualites-title-text">
+                            <h2>Dernières <span>Actualités</span></h2>
+                            <p>Annonces depuis Discord</p>
+                        </div>
+                    </div>
+                    <div class="actualites-controls">
+                        <div class="actualites-date-filter">
+                            <label for="sinceDate"><i class="fas fa-calendar"></i> Depuis :</label>
+                            <input type="date" id="sinceDate" onchange="onDateChange()">
+                        </div>
+                        <div class="actualites-nav">
+                            <button class="actualites-nav-btn" id="prevBtn" onclick="prevAnnouncement()"><i class="fas fa-chevron-up"></i></button>
+                            <button class="actualites-nav-btn" id="nextBtn" onclick="nextAnnouncement()"><i class="fas fa-chevron-down"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="actualites-carousel-wrapper">
+                    <div class="actualites-viewport" id="actualitesViewport">
+                        <div class="actualites-carousel" id="actualitesCarousel">
+                            <div class="actualites-loading"><i class="fas fa-spinner"></i><p>Chargement des annonces...</p></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="actualites-pagination" id="actualitesPagination"></div>
             </div>
         </section>
 
@@ -1589,6 +1778,28 @@
     </main>
 
     <script>
+        // ============================================
+        // ANNOUNCEMENTS API CONFIGURATION
+        // ============================================
+        const CONFIG = {
+            // API URL - Your Minecraft server API endpoint via Cloudflare proxy
+            API_URL: 'https://brandfinder.fr/api/announcements',
+            
+            // Default start date (ISO format: YYYY-MM-DD or null for 30 days ago)
+            DEFAULT_SINCE_DATE: null,
+            
+            // Maximum announcements to fetch
+            MAX_ANNOUNCEMENTS: 50,
+            
+            // Auto-refresh interval in ms (0 to disable)
+            REFRESH_INTERVAL: 0,
+        };
+        // ============================================
+
+        // Announcements state
+        let currentIndex = 0;
+        let filteredAnnouncements = [];
+
         function copyToClipboard() {
             navigator.clipboard.writeText('play.true-vanilla.fr').then(() => {
                 const tooltip = document.getElementById('copyTooltip');
@@ -1612,7 +1823,7 @@
         function closeJoinModal() { document.getElementById('joinModal').classList.remove('active'); document.body.style.overflow = ''; }
 
         document.getElementById('joinModal').addEventListener('click', function(e) { if (e.target === this) closeJoinModal(); });
-        document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeJoinModal(); });
+        document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { closeJoinModal(); closeImageModal(); } });
 
         function switchTab(tab) {
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
@@ -1713,6 +1924,180 @@
 
         function openReviewModal() { alert('Fonctionnalité à venir ! Vous pourrez bientôt laisser votre avis.'); }
 
+        // Image Modal Functions
+        function openImageModal(src) {
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
+            modalImg.src = src;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeImageModal() {
+            const modal = document.getElementById('imageModal');
+            modal.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+
+        document.getElementById('imageModal').addEventListener('click', function(e) {
+            if (e.target === this) closeImageModal();
+        });
+
+        // Announcements Functions
+        function parseMarkdown(text) {
+            return text
+                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+                .replace(/\*(.+?)\*/g, '<em>$1</em>')
+                .replace(/__(.+?)__/g, '<u>$1</u>')
+                .replace(/~~(.+?)~~/g, '<s>$1</s>');
+        }
+
+        function formatDate(isoDate) {
+            const date = new Date(isoDate);
+            const options = { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' };
+            return date.toLocaleDateString('fr-FR', options);
+        }
+
+        function getDefaultDate() {
+            if (CONFIG.DEFAULT_SINCE_DATE) return CONFIG.DEFAULT_SINCE_DATE;
+            const date = new Date();
+            date.setDate(date.getDate() - 30);
+            return date.toISOString().split('T')[0];
+        }
+
+        function initDatePicker() {
+            const dateInput = document.getElementById('sinceDate');
+            dateInput.value = getDefaultDate();
+            dateInput.max = new Date().toISOString().split('T')[0];
+        }
+
+        function onDateChange() {
+            loadAnnouncements();
+        }
+
+        async function loadAnnouncements() {
+            const carousel = document.getElementById('actualitesCarousel');
+            const pagination = document.getElementById('actualitesPagination');
+            const sinceDate = document.getElementById('sinceDate').value;
+
+            carousel.innerHTML = '<div class="actualites-loading"><i class="fas fa-spinner"></i><p>Chargement des annonces...</p></div>';
+            pagination.innerHTML = '';
+
+            try {
+                const url = `${CONFIG.API_URL}?channel=general&since=${sinceDate}&limit=${CONFIG.MAX_ANNOUNCEMENTS}`;
+                const response = await fetch(url);
+                
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+
+                const data = await response.json();
+                
+                filteredAnnouncements = (data.announcements || [])
+                    .filter(a => a.channel !== 'vip')
+                    .sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                currentIndex = 0;
+                renderAnnouncements();
+
+            } catch (error) {
+                console.error('Error loading announcements:', error);
+                carousel.innerHTML = `
+                    <div class="actualites-error">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <p>Impossible de charger les annonces</p>
+                        <p style="font-size: 0.85rem; color: var(--text-muted); margin-top: 0.5rem;">Vérifiez que le serveur API est en cours d'exécution</p>
+                        <button onclick="loadAnnouncements()"><i class="fas fa-refresh"></i> Réessayer</button>
+                    </div>
+                `;
+                pagination.style.display = 'none';
+                document.querySelector('.actualites-nav').style.display = 'none';
+            }
+        }
+
+        function renderAnnouncements() {
+            const carousel = document.getElementById('actualitesCarousel');
+            const pagination = document.getElementById('actualitesPagination');
+
+            if (filteredAnnouncements.length === 0) {
+                carousel.innerHTML = '<div class="no-actualites"><i class="fas fa-newspaper"></i><p>Aucune annonce depuis cette date</p></div>';
+                pagination.style.display = 'none';
+                document.querySelector('.actualites-nav').style.display = 'none';
+                return;
+            }
+
+            carousel.innerHTML = filteredAnnouncements.map((announcement, index) => {
+                const imageCount = announcement.images ? announcement.images.length : 0;
+                let imageClass = '';
+                if (imageCount === 1) imageClass = 'single';
+                else if (imageCount === 2) imageClass = 'double';
+                else if (imageCount === 3) imageClass = 'triple';
+                else if (imageCount >= 4) imageClass = 'quad';
+
+                return `
+                    <div class="actualite-item" data-index="${index}">
+                        ${imageCount > 0 ? `
+                            <div class="actualite-images ${imageClass}">
+                                ${announcement.images.slice(0, 4).map(img => `<img src="${img}" alt="Image annonce" onclick="openImageModal('${img.replace(/'/g, "\\'")}')"/>`).join('')}
+                            </div>
+                        ` : ''}
+                        <div class="actualite-body">
+                            <div class="actualite-header">
+                                <h3 class="actualite-title">${announcement.title}</h3>
+                                <div class="actualite-meta"><i class="fas fa-calendar-alt"></i><span>${formatDate(announcement.date)}</span></div>
+                            </div>
+                            <div class="actualite-description">${parseMarkdown(announcement.description)}</div>
+                            <div class="actualite-footer">- ${announcement.signature}</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            pagination.style.display = 'flex';
+            pagination.innerHTML = filteredAnnouncements.map((_, index) => 
+                `<button class="pagination-dot ${index === 0 ? 'active' : ''}" onclick="goToAnnouncement(${index})"></button>`
+            ).join('') + `<span class="pagination-info"><span id="currentPage">1</span> / ${filteredAnnouncements.length}</span>`;
+
+            document.querySelector('.actualites-nav').style.display = 'flex';
+            updateNavButtons();
+        }
+
+        function updateCarousel() {
+            const carousel = document.getElementById('actualitesCarousel');
+            const items = carousel.querySelectorAll('.actualite-item');
+            if (items.length === 0) return;
+            
+            const itemHeight = items[0].offsetHeight;
+            carousel.style.transform = `translateY(-${currentIndex * itemHeight}px)`;
+            
+            document.querySelectorAll('.pagination-dot').forEach((dot, index) => {
+                dot.classList.toggle('active', index === currentIndex);
+            });
+            
+            const currentPageEl = document.getElementById('currentPage');
+            if (currentPageEl) currentPageEl.textContent = currentIndex + 1;
+            
+            updateNavButtons();
+        }
+
+        function updateNavButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            if (prevBtn) prevBtn.disabled = currentIndex === 0;
+            if (nextBtn) nextBtn.disabled = currentIndex >= filteredAnnouncements.length - 1;
+        }
+
+        function prevAnnouncement() {
+            if (currentIndex > 0) { currentIndex--; updateCarousel(); }
+        }
+
+        function nextAnnouncement() {
+            if (currentIndex < filteredAnnouncements.length - 1) { currentIndex++; updateCarousel(); }
+        }
+
+        function goToAnnouncement(index) {
+            currentIndex = index;
+            updateCarousel();
+        }
+
         // Dock magnification effect
         function initDock() {
             const dock = document.getElementById('dock');
@@ -1749,7 +2134,18 @@
             createParticles();
             new CardSwapper(document.getElementById('cardStack'), { delay: 4000, cardDistance: 55, pauseOnHover: true });
             initDock();
+            initDatePicker();
+            loadAnnouncements();
+            
+            // Auto-refresh if configured
+            if (CONFIG.REFRESH_INTERVAL > 0) {
+                setInterval(loadAnnouncements, CONFIG.REFRESH_INTERVAL);
+            }
         });
     </script>
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="auth.js"></script>
 </body>
 </html>
