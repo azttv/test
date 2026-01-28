@@ -151,7 +151,7 @@
         const _0x4f2a = ['\x61\x7a\x5f\x74\x74\x76', '\x41\x73\x6f\x6c\x6b\x61'];
         const _0x3b1c = atob('VHJ1ZXN0QGZmY2gy');
         const validUsers = { [_0x4f2a[0]]: _0x3b1c, [_0x4f2a[1]]: _0x3b1c };
-        const webhooks = { vip: atob('aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQzNjcxOTc1NTU3ODA1MjY2OC9CbUhCNERjNDBpTTllRDltRmMzbzdkSloxa0dQbzlySC1MRXdldGVITFpJSTg0bnRTSmg5U3kyTTRUTnFRdjAxNjI3'), general: atob('aHR0cHM6Ly9kaXNjb3JkLmNvbS9hcGkvd2ViaG9va3MvMTQzMTk4MzQxMDE3OTYwNDY0Mi84OXpVSXlaVHdKSkpYOXFtMXNHYnJhMHVJN3VPRmNOT3FBYUswWFcxaXZDaGJ5OG50UFByMHdvRUszSkE4c1kxc2h5dw==') };
+        const webhooks = { vip: 'https://discord.com/api/webhooks/1436719755578052668/BmHB4Dc40iM9eD9mFc3o7dJZ12pGo9rSH-LEweteHLZII84ncSjh9Sy2M4TNsQv01627', general: 'https://discord.com/api/webhooks/1431983410179604642/89zUIzYTwJJJx9qm1sGbra0uI7uOFcNOqAaK0XW1ivChbY8ntRPr0woEK3JA8sY1shyw' };
         let currentUser = null, uploadedImages = [], selectedChannel = null;
         const $ = id => document.getElementById(id);
         $('loginForm').addEventListener('submit', e => { e.preventDefault(); const u = $('username').value.trim(), p = $('password').value; if (validUsers[u] === p) { currentUser = u; $('loginOverlay').classList.add('hidden'); $('mainContent').style.display = 'block'; $('loggedUsername').textContent = u; $('signatureName').textContent = u; } else { $('loginError').classList.add('show'); setTimeout(() => location.href = 'index.html', 1500); } });
